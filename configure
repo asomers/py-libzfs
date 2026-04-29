@@ -727,7 +727,6 @@ HAVE_ZFS_ITER_SNAPSPEC
 HAVE_ZFS_ITER_FILESYSTEMS
 HAVE_ZFS_SHARE
 HAVE_ZPOOL_SCAN
-HAVE_ZPOOL_GET_STATUS
 HAVE_ZPOOL_EVENTS_NEXT
 HAVE_ZPOOL_SEARCH_IMPORT_LIBZFS
 HAVE_ZPOOL_ADD
@@ -4239,40 +4238,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking function signature of zpool_get_status" >&5
-printf '%s\n' "$as_me: Checking function signature of zpool_get_status" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zpool_get_status(NULL, NULL, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_GET_STATUS=3
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 3 PARAMS" >&5
-printf '%s\n' "$as_me: 3 PARAMS" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_GET_STATUS=2
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 2 PARAMS" >&5
-printf '%s\n' "$as_me: 2 PARAMS" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 
 
