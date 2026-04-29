@@ -293,7 +293,7 @@ cdef extern from "libzfs.h" nogil:
     IF HAVE_ZPOOL_EVENTS_NEXT:
         extern int zpool_events_next(libzfs_handle_t *, nvpair.nvlist_t **, int *, unsigned, int);
 
-    IF HAVE_ZPOOL_GET_STATUS == 3 and HAVE_ZPOOL_ERRATA_T_ENUM:
+    IF HAVE_ZPOOL_GET_STATUS == 3:
         extern zpool_status_t zpool_get_status(zpool_handle_t *, const char **, zfs.zpool_errata_t *)
     ELSE:
         extern zpool_status_t zpool_get_status(zpool_handle_t *, const char **)

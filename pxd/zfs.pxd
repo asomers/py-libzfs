@@ -96,9 +96,8 @@ cdef extern from "sys/fs/zfs.h" nogil:
     IF HAVE_ZPOOL_REWIND_POLICY_T:
         const char *ZPOOL_REWIND_REQUEST
 
-    IF HAVE_ZPOOL_ERRATA_T_ENUM:
-        ctypedef enum zpool_errata_t:
-            pass
+    ctypedef enum zpool_errata_t:
+        pass
 
     IF HAVE_LZC_WAIT:
         ctypedef enum zpool_wait_activity_t:

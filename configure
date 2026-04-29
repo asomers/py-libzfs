@@ -748,7 +748,6 @@ HAVE_POOL_RAIDZ_EXPAND_STAT_T
 HAVE_ZPOOL_LOAD_POLICY_T
 HAVE_ZPOOL_REWIND_POLICY_T
 HAVE_POOL_SCRUB_CMD_T
-HAVE_ZPOOL_ERRATA_T_ENUM
 IS_OPENZFS
 freebsd_src
 zof
@@ -3828,36 +3827,17 @@ fi
 done
 
 
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_errata_t" >&5
-printf '%s\n' "$as_me: Checking existence of zpool_errata_t" >&6;}
+#AC_MSG_NOTICE([Checking existence of zpool_errata_t])
 
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-			zpool_errata_t errata;
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_ZPOOL_ERRATA_T_ENUM=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_ERRATA_T_ENUM=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Not found" >&5
-printf '%s\n' "$as_me: Not found" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+#AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+		#[#include <sys/fs/zfs.h>],
+		#[
+			#zpool_errata_t errata;
+		#]
+	#)],
+	#[AC_SUBST(HAVE_ZPOOL_ERRATA_T_ENUM, 1) AC_MSG_NOTICE([OK])],
+	#[AC_SUBST(HAVE_ZPOOL_ERRATA_T_ENUM, 0) AC_MSG_NOTICE([Not found])]
+#)
 
 
 
