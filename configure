@@ -745,8 +745,6 @@ HAVE_ZPOOL_READ_LABEL_LIBZUTIL
 HAVE_ZPOOL_READ_LABEL_PARAMS
 HAVE_LIBZUTIL_HEADER
 HAVE_POOL_RAIDZ_EXPAND_STAT_T
-HAVE_ZPOOL_LOAD_POLICY_T
-HAVE_ZPOOL_REWIND_POLICY_T
 IS_OPENZFS
 freebsd_src
 zof
@@ -3825,69 +3823,6 @@ fi
 
 done
 
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying existence of zpool_rewind_policy_t" >&5
-printf '%s\n' "$as_me: Verifying existence of zpool_rewind_policy_t" >&6;}
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-			zpool_rewind_policy_t policy;
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_REWIND_POLICY_T=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_REWIND_POLICY_T=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying existence of zpool_load_policy_t" >&5
-printf '%s\n' "$as_me: Verifying existence of zpool_load_policy_t" >&6;}
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-			zpool_load_policy_t policy;
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_LOAD_POLICY_T=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_LOAD_POLICY_T=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of pool_raidz_expand_stat_t" >&5
 printf '%s\n' "$as_me: Checking existence of pool_raidz_expand_stat_t" >&6;}

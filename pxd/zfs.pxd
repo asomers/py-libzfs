@@ -85,16 +85,12 @@ cdef extern from "sys/fs/zfs.h" nogil:
 
     const char* ZFS_DEV
 
-    IF HAVE_ZPOOL_LOAD_POLICY_T:
-        # Pool load policy parameter
-        const char* ZPOOL_LOAD_POLICY
-        const char* ZPOOL_LOAD_REWIND_POLICY
-        const char* ZPOOL_LOAD_REQUEST_TXG
-        const char* ZPOOL_LOAD_META_THRESH
-        const char* ZPOOL_LOAD_DATA_THRESH
-
-    IF HAVE_ZPOOL_REWIND_POLICY_T:
-        const char *ZPOOL_REWIND_REQUEST
+    # Pool load policy parameter
+    const char* ZPOOL_LOAD_POLICY
+    const char* ZPOOL_LOAD_REWIND_POLICY
+    const char* ZPOOL_LOAD_REQUEST_TXG
+    const char* ZPOOL_LOAD_META_THRESH
+    const char* ZPOOL_LOAD_DATA_THRESH
 
     ctypedef enum zpool_errata_t:
         pass

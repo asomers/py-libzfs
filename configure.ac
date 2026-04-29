@@ -145,29 +145,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 ])
 
 
-AC_MSG_NOTICE([Verifying existence of zpool_rewind_policy_t])
-AC_LINK_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-			zpool_rewind_policy_t policy;
-		]
-	)],
-	[AC_SUBST(HAVE_ZPOOL_REWIND_POLICY_T, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_ZPOOL_REWIND_POLICY_T, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
-
-AC_MSG_NOTICE([Verifying existence of zpool_load_policy_t])
-AC_LINK_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-			zpool_load_policy_t policy;
-		]
-	)],
-	[AC_SUBST(HAVE_ZPOOL_LOAD_POLICY_T, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_ZPOOL_LOAD_POLICY_T, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
 AC_MSG_NOTICE([Checking existence of pool_raidz_expand_stat_t])
 
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(

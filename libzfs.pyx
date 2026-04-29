@@ -3411,10 +3411,7 @@ cdef class ZFSPool(object):
     def clear(self):
         cdef NVList policy = NVList()
         cdef int ret
-        IF HAVE_ZPOOL_LOAD_POLICY_T:
-            policy[zfs.ZPOOL_LOAD_REWIND_POLICY] = zfs.ZPOOL_NO_REWIND
-        ELIF HAVE_ZPOOL_REWIND_POLICY_T:
-            policy[zfs.ZPOOL_REWIND_REQUEST] = zfs.ZPOOL_NO_REWIND
+        policy[zfs.ZPOOL_LOAD_REWIND_POLICY] = zfs.ZPOOL_NO_REWIND
 
         with nogil:
             ret = libzfs.zpool_clear(self.handle, NULL, policy.handle)
