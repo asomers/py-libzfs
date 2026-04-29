@@ -730,7 +730,6 @@ HAVE_ZPOOL_SCAN
 HAVE_ZPOOL_GET_STATUS
 HAVE_ZFS_VDEV_STAT_ASHIFT
 HAVE_ZFS_ENCRYPTION
-HAVE_ZPOOL_READ_LABEL_LIBZFS
 HAVE_ZPOOL_EVENTS_NEXT
 HAVE_ZPOOL_SEARCH_IMPORT_LIBZFS
 HAVE_ZPOOL_ADD
@@ -741,8 +740,6 @@ HAVE_ZFS_FOREACH_MOUNTPOINT
 HAVE_ZPOOL_VDEV_ATTACH
 HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL
 HAVE_ZPOOL_SEARCH_IMPORT_PARAMS
-HAVE_ZPOOL_READ_LABEL_LIBZUTIL
-HAVE_ZPOOL_READ_LABEL_PARAMS
 HAVE_POOL_RAIDZ_EXPAND_STAT_T
 IS_OPENZFS
 freebsd_src
@@ -3864,45 +3861,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
 
 
-
-
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_read_label in libzutil.h header" >&5
 printf '%s\n' "$as_me: Checking existence of zpool_read_label in libzutil.h header" >&6;}
-
-
-HAVE_ZPOOL_READ_LABEL_PARAMS=0
-
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzutil.h>
-int
-main (void)
-{
-
-			zpool_read_label(0, NULL, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_READ_LABEL_LIBZUTIL=1
- HAVE_ZPOOL_READ_LABEL_PARAMS=3
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_READ_LABEL_LIBZUTIL=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-
 
 
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_search_import in libzutil.h header" >&5
@@ -4281,68 +4241,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_read_label with 2 params in libzfs.h header" >&5
-printf '%s\n' "$as_me: Checking existence of zpool_read_label with 2 params in libzfs.h header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zpool_read_label(0, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_READ_LABEL_LIBZFS=1
- HAVE_ZPOOL_READ_LABEL_PARAMS=2
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_ZPOOL_READ_LABEL_LIBZFS=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_read_label with 3 params in libzfs.h header" >&5
-printf '%s\n' "$as_me: Checking existence of zpool_read_label with 3 params in libzfs.h header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zpool_read_label(0, NULL, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZPOOL_READ_LABEL_LIBZFS=1
- HAVE_ZPOOL_READ_LABEL_PARAMS=3
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of ZFS Native encryption support  in libzfs.h header" >&5

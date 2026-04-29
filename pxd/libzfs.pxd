@@ -36,8 +36,7 @@ cdef extern from 'libzutil.h' nogil:
     extern const pool_config_ops_t libzfs_config_ops;
     extern boolean_t zfs_dev_is_whole_disk(const char *)
 
-    IF HAVE_ZPOOL_READ_LABEL_LIBZUTIL and HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-        extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
+    extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
 
     IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
         extern nvpair.nvlist_t *zpool_search_import(void *, importargs_t *, const pool_config_ops_t *)
@@ -620,11 +619,7 @@ cdef extern from "libzfs.h" nogil:
     extern int zpool_in_use(libzfs_handle_t *, int, zfs.pool_state_t *, char **,
         int *)
 
-    IF HAVE_ZPOOL_READ_LABEL_LIBZFS:
-        IF HAVE_ZPOOL_READ_LABEL_PARAMS == 2:
-            extern int zpool_read_label(int, nvpair.nvlist_t **)
-        ELIF HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-            extern int zpool_read_label(int, nvpair.nvlist_t **, int*)
+    extern int zpool_read_label(int, nvpair.nvlist_t **, int*)
 
     extern int zpool_clear_label(int)
     extern int zvol_check_dump_config(char *)

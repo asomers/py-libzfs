@@ -4815,10 +4815,7 @@ def read_label(device):
         os.close(fd)
         raise OSError(errno.EINVAL, 'Not a character device')
 
-    IF HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-        ret = libzfs.zpool_read_label(fd, &handle, NULL)
-    ELSE:
-        ret = libzfs.zpool_read_label(fd, &handle)
+    ret = libzfs.zpool_read_label(fd, &handle, NULL)
 
     if ret != 0:
         os.close(fd)
