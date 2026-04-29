@@ -28,37 +28,36 @@ cdef extern from "libzfs_core.h" nogil:
         extern int lzc_wait(const char *, zfs.zpool_wait_activity_t, boolean_t *)
 
 
-IF HAVE_LIBZUTIL_HEADER:
-    cdef extern from 'libzutil.h' nogil:
+cdef extern from 'libzutil.h' nogil:
 
-        ctypedef struct pool_config_ops_t:
-            pass
+    ctypedef struct pool_config_ops_t:
+        pass
 
-        extern const pool_config_ops_t libzfs_config_ops;
-        extern boolean_t zfs_dev_is_whole_disk(const char *)
+    extern const pool_config_ops_t libzfs_config_ops;
+    extern boolean_t zfs_dev_is_whole_disk(const char *)
 
-        IF HAVE_ZPOOL_READ_LABEL_LIBZUTIL and HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-            extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
+    IF HAVE_ZPOOL_READ_LABEL_LIBZUTIL and HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
+        extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
 
-        IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
-            extern nvpair.nvlist_t *zpool_search_import(void *, importargs_t *, const pool_config_ops_t *)
-        ELIF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 2:
-            ctypedef struct libpc_handle_t:
-                int lpc_error
-                int lpc_printerr
-                int lpc_open_access_error
-                int lpc_desc_active
-                char lpc_desc[1024]
-                pool_config_ops_t *lpc_ops
-                void *lpc_lib_handle
-            enum:
-                LPC_SUCCESS = 0
-                LPC_BADCACHE = 2000
-                LPC_BADPATH
-                LPC_NOMEM
-                LPC_EACCESS
-                LPC_UNKNOWN
-            extern nvpair.nvlist_t *zpool_search_import(libpc_handle_t *, importargs_t *)
+    IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
+        extern nvpair.nvlist_t *zpool_search_import(void *, importargs_t *, const pool_config_ops_t *)
+    ELIF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 2:
+        ctypedef struct libpc_handle_t:
+            int lpc_error
+            int lpc_printerr
+            int lpc_open_access_error
+            int lpc_desc_active
+            char lpc_desc[1024]
+            pool_config_ops_t *lpc_ops
+            void *lpc_lib_handle
+        enum:
+            LPC_SUCCESS = 0
+            LPC_BADCACHE = 2000
+            LPC_BADPATH
+            LPC_NOMEM
+            LPC_EACCESS
+            LPC_UNKNOWN
+        extern nvpair.nvlist_t *zpool_search_import(libpc_handle_t *, importargs_t *)
 
 
 cdef extern from "libzfs.h" nogil:

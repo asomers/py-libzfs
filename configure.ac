@@ -162,14 +162,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 SECTION_TITLE([RUNNING TESTS ON libzutil.h HEADER])
 
 
-dnl Checking libzutil header existence
-
-AC_CHECK_HEADERS([libzutil.h],
-	[AC_SUBST(HAVE_LIBZUTIL_HEADER, 1) AC_MSG_NOTICE(OK)],
-	[AC_SUBST(HAVE_LIBZUTIL_HEADER, 0) AC_MSG_NOTICE(NOT FOUND)],
-	[]
-)
-
 
 dnl Checking function zpool_read_label existence
 
