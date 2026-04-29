@@ -145,22 +145,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 ])
 
 
-dnl Checking typedef pool_scrub_cmd_t in zfs header
-
-AC_MSG_NOTICE([Checking typedef pool_scrub_cmt_t in zfs header])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-			int i = sizeof(pool_scrub_cmd_t);
-			i = i; /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_POOL_SCRUB_CMD_T, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_POOL_SCRUB_CMD_T, 0) AC_MSG_NOTICE([Not found])]
-)
-
-
 AC_MSG_NOTICE([Verifying existence of zpool_rewind_policy_t])
 AC_LINK_IFELSE([AC_LANG_PROGRAM(
 		[#include <sys/fs/zfs.h>],

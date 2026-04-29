@@ -462,11 +462,10 @@ cdef extern from "sys/fs/zfs.h" nogil:
         POOL_SCAN_RESILVER
         POOL_SCAN_FUNCS
         
-    IF HAVE_POOL_SCRUB_CMD_T:
-        ctypedef enum pool_scrub_cmd_t:
-            POOL_SCRUB_NORMAL = 0
-            POOL_SCRUB_PAUSE
-            POOL_SCRUB_FLAGS_END
+    ctypedef enum pool_scrub_cmd_t:
+        POOL_SCRUB_NORMAL = 0
+        POOL_SCRUB_PAUSE
+        POOL_SCRUB_FLAGS_END
 
     ctypedef enum zio_type_t:
         ZIO_TYPE_NULL = 0
