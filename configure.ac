@@ -144,21 +144,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 	#include <sys/types.h>
 ])
 
-dnl Checking if VDEV_AUX_ASHIFT_TOO_BIG enum exists
-
-AC_MSG_NOTICE([Checking existence of VDEV_AUX_ASHIFT_TOO_BIG enum in zfs header])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-			VDEV_AUX_ASHIFT_TOO_BIG == VDEV_AUX_ASHIFT_TOO_BIG /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_VDEV_AUX_ASHIFT_TOO_BIG, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_VDEV_AUX_ASHIFT_TOO_BIG, 0) AC_MSG_NOTICE([Not found])]
-)
-
-
 dnl Checking zpool_errata_t existence
 
 AC_MSG_NOTICE([Checking existence of zpool_errata_t])

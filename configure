@@ -749,7 +749,6 @@ HAVE_ZPOOL_LOAD_POLICY_T
 HAVE_ZPOOL_REWIND_POLICY_T
 HAVE_POOL_SCRUB_CMD_T
 HAVE_ZPOOL_ERRATA_T_ENUM
-HAVE_VDEV_AUX_ASHIFT_TOO_BIG
 IS_OPENZFS
 freebsd_src
 zof
@@ -3827,53 +3826,6 @@ esac
 fi
 
 done
-
-
-#AC_MSG_NOTICE([Checking signature of zfs_prop_valid_for_type in zfs header])
-
-#AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		#[#include <sys/fs/zfs.h>],
-		#[
-			#zfs_prop_valid_for_type(0, ZFS_TYPE_VOLUME, 0)
-		#],
-	#)],
-	#[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 3) AC_MSG_NOTICE(3 PARAMS)],
-	#[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 2) AC_MSG_NOTICE(2 PARAMS)]
-#)
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of VDEV_AUX_ASHIFT_TOO_BIG enum in zfs header" >&5
-printf '%s\n' "$as_me: Checking existence of VDEV_AUX_ASHIFT_TOO_BIG enum in zfs header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-			VDEV_AUX_ASHIFT_TOO_BIG == VDEV_AUX_ASHIFT_TOO_BIG /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_VDEV_AUX_ASHIFT_TOO_BIG=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_VDEV_AUX_ASHIFT_TOO_BIG=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Not found" >&5
-printf '%s\n' "$as_me: Not found" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
 
 
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of zpool_errata_t" >&5
