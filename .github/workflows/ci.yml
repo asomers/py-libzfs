@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build-deb:
+  debian:
     runs-on: ubuntu-latest
     container:
       image: ixsystems/zfs:latest
@@ -34,3 +34,38 @@ jobs:
           name: py-libzfs
           path: artifacts
         if: success()
+
+  freebsd:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - freebsd_version: "13.5"
+            branch: "releng/13.5"
+          - freebsd_version: "14.4"
+            branch: "releng/14.4"
+          - freebsd_version: "15.0"
+            branch: "releng/15.0"
+    name: FreeBSD ${{ matrix.freebsd_version }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Start VM
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: ${{ matrix.freebsd_version }}
+          usesh: true
+      - name: Install dependencies
+        shell: freebsd {0}
+        run: |
+          pkg install -y python3 py311-setuptools py311-cython0 git
+      - name: Fetch FreeBSD source
+        shell: freebsd {0}
+        run: |
+          git clone --depth 1 -b ${{ matrix.branch }} https://github.com/freebsd/freebsd-src.git /usr/src
+      - name: Build
+        shell: freebsd {0}
+        run: |
+          # NB: this assumes the freebsd src tree can be found at /usr/src
+          ./configure
+          make
