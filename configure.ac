@@ -144,15 +144,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 	#include <sys/types.h>
 ])
 
-
-dnl following is a valid check if zfs_max_dataset_name_len exists
-AX_CHECK_DEFINE(
-	[sys/fs/zfs.h], [ZFS_MAX_DATASET_NAME_LEN],
-	[AC_SUBST(HAVE_ZFS_MAX_DATASET_NAME_LEN, 1)],
-	[AC_SUBST(HAVE_ZFS_MAX_DATASET_NAME_LEN, 0)]
-)
-
-
 dnl Check if special classes are supported
 
 AC_MSG_NOTICE([Checking existence of special classes in zfs header by verifying ZPOOL_CONFIG_ALLOCATION_BIAS existence])

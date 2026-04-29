@@ -358,13 +358,8 @@ class DiffFileType(enum.Enum):
     SOCKET = '='
 
 
-IF HAVE_ZFS_MAX_DATASET_NAME_LEN:
-    cdef enum:
-        MAX_DATASET_NAME_LEN = zfs.ZFS_MAX_DATASET_NAME_LEN
-ELSE:
-    cdef enum:
-        MAX_DATASET_NAME_LEN = libzfs.ZFS_MAXNAMELEN
-
+cdef enum:
+    MAX_DATASET_NAME_LEN = zfs.ZFS_MAX_DATASET_NAME_LEN
 
 cdef struct iter_state:
     uintptr_t *array

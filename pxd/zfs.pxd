@@ -142,9 +142,8 @@ cdef extern from "sys/fs/zfs.h" nogil:
         ZFS_IMPORT_ONLY
         ZFS_ONLINE_EXPAND
 
-    IF HAVE_ZFS_MAX_DATASET_NAME_LEN:
-        enum:
-            ZFS_MAX_DATASET_NAME_LEN
+    enum:
+        ZFS_MAX_DATASET_NAME_LEN
 
     ctypedef enum zfs_ioc_t:
         ZFS_IOC_FIRST
