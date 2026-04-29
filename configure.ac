@@ -326,21 +326,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM(
 
 
 
-dnl Checking function signature of zpool_scan
-
-AC_MSG_NOTICE([Checking function signature of zpool_scan])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			zpool_scan(NULL, 0, 0) /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_ZPOOL_SCAN, 3) AC_MSG_NOTICE([3 params])],
-	[AC_SUBST(HAVE_ZPOOL_SCAN, 2) AC_MSG_NOTICE([2 params])]
-)
-
-
 dnl Checking function signature of zfs_share
 
 AC_MSG_NOTICE([Checking function signature of zfs_share])

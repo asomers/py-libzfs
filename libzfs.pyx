@@ -3365,10 +3365,7 @@ cdef class ZFSPool(object):
         cdef int ret
 
         with nogil:
-            IF HAVE_ZPOOL_SCAN == 3:
-                ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_SCRUB, zfs.POOL_SCRUB_NORMAL)
-            ELSE:
-                ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_SCRUB)
+            ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_SCRUB, zfs.POOL_SCRUB_NORMAL)
 
         if ret != 0:
             raise self.root.get_error()
@@ -3379,10 +3376,7 @@ cdef class ZFSPool(object):
         cdef int ret
 
         with nogil:
-            IF HAVE_ZPOOL_SCAN == 3:
-                ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_NONE, zfs.POOL_SCRUB_NORMAL)
-            ELSE:
-                ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_NONE)
+            ret = libzfs.zpool_scan(self.handle, zfs.POOL_SCAN_NONE, zfs.POOL_SCRUB_NORMAL)
 
         if ret != 0:
             raise self.root.get_error()

@@ -244,10 +244,7 @@ cdef extern from "libzfs.h" nogil:
     ELSE:
         extern int zpool_add(zpool_handle_t *, nvpair.nvlist_t *)
 
-    IF HAVE_ZPOOL_SCAN == 3:
-        extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t, zfs.pool_scrub_cmd_t)
-    ELSE:
-        extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t)
+    extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t, zfs.pool_scrub_cmd_t)
 
     extern int zpool_clear(zpool_handle_t *, const char *, nvpair.nvlist_t *)
     extern int zpool_reguid(zpool_handle_t *)
