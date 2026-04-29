@@ -729,7 +729,6 @@ HAVE_ZFS_SHARE
 HAVE_ZPOOL_SCAN
 HAVE_ZPOOL_GET_STATUS
 HAVE_ZFS_VDEV_STAT_ASHIFT
-HAVE_ZFS_ENCRYPTION
 HAVE_ZPOOL_EVENTS_NEXT
 HAVE_ZPOOL_SEARCH_IMPORT_LIBZFS
 HAVE_ZPOOL_ADD
@@ -4241,39 +4240,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of ZFS Native encryption support  in libzfs.h header" >&5
-printf '%s\n' "$as_me: Checking existence of ZFS Native encryption support  in libzfs.h header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zfs_crypto_load_key(NULL, B_FALSE, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_ZFS_ENCRYPTION=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: SUPPORTED" >&5
-printf '%s\n' "$as_me: SUPPORTED" >&6;}
-else case e in #(
-  e) HAVE_ZFS_ENCRYPTION=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT SUPPORTED" >&5
-printf '%s\n' "$as_me: NOT SUPPORTED" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 
 

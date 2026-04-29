@@ -660,17 +660,16 @@ cdef extern from "libzfs.h" nogil:
 
         extern int zfs_ioctl(libzfs_handle_t *, int, zfs_cmd *)
 
-    IF HAVE_ZFS_ENCRYPTION:
-        extern int zfs_crypto_get_encryption_root(zfs_handle_t *, boolean_t *, char *)
-        extern int zfs_crypto_create(
-            libzfs_handle_t *, char *, nvpair.nvlist_t *, nvpair.nvlist_t *,
-            boolean_t stdin_available, uint8_t **, uint_t *
-        )
-        extern int zfs_crypto_clone_check(libzfs_handle_t *, zfs_handle_t *, char *, nvpair.nvlist_t *)
-        extern int zfs_crypto_attempt_load_keys(libzfs_handle_t *, char *)
-        extern int zfs_crypto_load_key(zfs_handle_t *, boolean_t, char *)
-        extern int zfs_crypto_unload_key(zfs_handle_t *)
-        extern int zfs_crypto_rewrap(zfs_handle_t *, nvpair.nvlist_t *, boolean_t)
+    extern int zfs_crypto_get_encryption_root(zfs_handle_t *, boolean_t *, char *)
+    extern int zfs_crypto_create(
+        libzfs_handle_t *, char *, nvpair.nvlist_t *, nvpair.nvlist_t *,
+        boolean_t stdin_available, uint8_t **, uint_t *
+    )
+    extern int zfs_crypto_clone_check(libzfs_handle_t *, zfs_handle_t *, char *, nvpair.nvlist_t *)
+    extern int zfs_crypto_attempt_load_keys(libzfs_handle_t *, char *)
+    extern int zfs_crypto_load_key(zfs_handle_t *, boolean_t, char *)
+    extern int zfs_crypto_unload_key(zfs_handle_t *)
+    extern int zfs_crypto_rewrap(zfs_handle_t *, nvpair.nvlist_t *, boolean_t)
 
     IF HAVE_THREAD_INIT_FINI:
         cdef extern from 'sys/zfs_context_userland.h' nogil:
