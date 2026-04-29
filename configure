@@ -750,8 +750,6 @@ HAVE_ZPOOL_REWIND_POLICY_T
 HAVE_POOL_SCRUB_CMD_T
 HAVE_ZPOOL_ERRATA_T_ENUM
 HAVE_VDEV_AUX_ASHIFT_TOO_BIG
-HAVE_ZFS_PROP_VALID_FOR_TYPE
-HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS
 IS_OPENZFS
 freebsd_src
 zof
@@ -3831,88 +3829,17 @@ fi
 done
 
 
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of special classes in zfs header by verifying ZPOOL_CONFIG_ALLOCATION_BIAS existence" >&5
-printf '%s\n' "$as_me: Checking existence of special classes in zfs header by verifying ZPOOL_CONFIG_ALLOCATION_BIAS existence" >&6;}
+#AC_MSG_NOTICE([Checking signature of zfs_prop_valid_for_type in zfs header])
 
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for ZPOOL_CONFIG_ALLOCATION_BIAS defined in sys/fs/zfs.h" >&5
-printf %s "checking for ZPOOL_CONFIG_ALLOCATION_BIAS defined in sys/fs/zfs.h... " >&6; }
-if test ${ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e) cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-  #ifdef ZPOOL_CONFIG_ALLOCATION_BIAS
-  int ok;
-  (void)ok;
-  #else
-  choke me
-  #endif
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h=yes
-else case e in #(
-  e) ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h=no ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
-esac
-fi
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h" >&5
-printf '%s\n' "$ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h" >&6; }
-if test $ac_cv_defined_ZPOOL_CONFIG_ALLOCATION_BIAS_sys_fs_zfs_h != "no"
-then :
-  HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS=1
-
-else case e in #(
-  e) HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS=0
-
- ;;
-esac
-fi
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking signature of zfs_prop_valid_for_type in zfs header" >&5
-printf '%s\n' "$as_me: Checking signature of zfs_prop_valid_for_type in zfs header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/fs/zfs.h>
-int
-main (void)
-{
-
-			zfs_prop_valid_for_type(0, ZFS_TYPE_VOLUME, 0)
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_ZFS_PROP_VALID_FOR_TYPE=3
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 3 PARAMS" >&5
-printf '%s\n' "$as_me: 3 PARAMS" >&6;}
-else case e in #(
-  e) HAVE_ZFS_PROP_VALID_FOR_TYPE=2
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 2 PARAMS" >&5
-printf '%s\n' "$as_me: 2 PARAMS" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+#AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+		#[#include <sys/fs/zfs.h>],
+		#[
+			#zfs_prop_valid_for_type(0, ZFS_TYPE_VOLUME, 0)
+		#],
+	#)],
+	#[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 3) AC_MSG_NOTICE(3 PARAMS)],
+	#[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 2) AC_MSG_NOTICE(2 PARAMS)]
+#)
 
 
 

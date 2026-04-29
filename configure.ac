@@ -144,32 +144,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 	#include <sys/types.h>
 ])
 
-dnl Check if special classes are supported
-
-AC_MSG_NOTICE([Checking existence of special classes in zfs header by verifying ZPOOL_CONFIG_ALLOCATION_BIAS existence])
-
-AX_CHECK_DEFINE(
-	[sys/fs/zfs.h], [ZPOOL_CONFIG_ALLOCATION_BIAS],
-	[AC_SUBST(HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS, 1)],
-	[AC_SUBST(HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS, 0)]
-)
-
-
-dnl Check zfs_prop_valid_for_type signature
-
-AC_MSG_NOTICE([Checking signature of zfs_prop_valid_for_type in zfs header])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-			zfs_prop_valid_for_type(0, ZFS_TYPE_VOLUME, 0)
-		],
-	)],
-	[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 3) AC_MSG_NOTICE(3 PARAMS)],
-	[AC_SUBST(HAVE_ZFS_PROP_VALID_FOR_TYPE, 2) AC_MSG_NOTICE(2 PARAMS)]
-)
-
-
 dnl Checking if VDEV_AUX_ASHIFT_TOO_BIG enum exists
 
 AC_MSG_NOTICE([Checking existence of VDEV_AUX_ASHIFT_TOO_BIG enum in zfs header])

@@ -625,10 +625,7 @@ cdef class ZFS(object):
 
         iter = <prop_iter_state *>arg
 
-        IF HAVE_ZFS_PROP_VALID_FOR_TYPE == 3:
-            ret = zfs.zfs_prop_valid_for_type(proptype, iter.type, ret)
-        ELSE:
-            ret = zfs.zfs_prop_valid_for_type(proptype, iter.type)
+        ret = zfs.zfs_prop_valid_for_type(proptype, iter.type, ret)
 
         if not ret:
             return zfs.ZPROP_CONT
@@ -738,36 +735,33 @@ cdef class ZFS(object):
             for i in topology['log']:
                 vdev = <ZFSVdev>i
                 vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = 1L
-                IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-                    vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_LOG
+                vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_LOG
                 root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
 
         if 'draid' in topology:
             children = len(topology['draid'])
             for draid in topology['draid']:
                 vdev = <ZFSVdev>draid['disk']
-                IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-                    if draid['parameters'].pop('special_vdev', False):
-                        vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
-                        vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_SPECIAL
+                if draid['parameters'].pop('special_vdev', False):
+                    vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
+                    vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_SPECIAL
                 update_draid_config(vdev.nvlist, **draid['parameters'])
                 root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
 
 
-        IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-            if 'special' in topology:
-                for i in topology['special']:
-                    vdev = <ZFSVdev>i
-                    vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
-                    vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_SPECIAL
-                    root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
+        if 'special' in topology:
+            for i in topology['special']:
+                vdev = <ZFSVdev>i
+                vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
+                vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_SPECIAL
+                root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
 
-            if 'dedup' in topology:
-                for i in topology['dedup']:
-                    vdev = <ZFSVdev>i
-                    vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
-                    vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_DEDUP
-                    root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
+        if 'dedup' in topology:
+            for i in topology['dedup']:
+                vdev = <ZFSVdev>i
+                vdev.nvlist[zfs.ZPOOL_CONFIG_IS_LOG] = False
+                vdev.nvlist[zfs.ZPOOL_CONFIG_ALLOCATION_BIAS] = zfs.VDEV_ALLOC_BIAS_DEDUP
+                root.add_child_vdev((<ZFSVdev>add_properties_to_vdev(vdev)))
         return root
 
     @staticmethod
@@ -2095,10 +2089,7 @@ cdef class ZFSProperty(object):
             dset = <ZFSObject>d
             with nogil:
                 if c_recursive and prop != zfs.ZPROP_INVAL:
-                    IF HAVE_ZFS_PROP_VALID_FOR_TYPE == 3:
-                        ret = <int>zfs.zfs_prop_valid_for_type(prop, libzfs.zfs_get_type(dset.handle), 0)
-                    ELSE:
-                        ret = <int>zfs.zfs_prop_valid_for_type(prop, libzfs.zfs_get_type(dset.handle))
+                    ret = <int>zfs.zfs_prop_valid_for_type(prop, libzfs.zfs_get_type(dset.handle), 0)
                     if ret != 1:
                         continue
                 ret = libzfs.zfs_prop_inherit(dset.handle, self.cname, received)
@@ -2893,11 +2884,10 @@ cdef class ZFSPool(object):
                 'spare': [i.asdict() for i in self.spare_vdevs if i.type not in filter_vdevs],
             },
         }
-        IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-            state['groups'].update({
-                'special': [i.asdict() for i in self.special_vdevs if i.type not in filter_vdevs],
-                'dedup': [i.asdict() for i in self.dedup_vdevs if i.type not in filter_vdevs],
-            })
+        state['groups'].update({
+            'special': [i.asdict() for i in self.special_vdevs if i.type not in filter_vdevs],
+            'dedup': [i.asdict() for i in self.dedup_vdevs if i.type not in filter_vdevs],
+        })
 
         if self.handle != NULL:
             state.update({
@@ -2951,38 +2941,28 @@ cdef class ZFSPool(object):
             return vdev
 
     def __retrieve_vdevs(self, vdev_type):
-        IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-            valid_vdev_types = ('data', 'log', 'spare', 'cache', 'special', 'dedup')
-        ELSE:
-            valid_vdev_types = ('data', 'log', 'spare', 'cache')
+        valid_vdev_types = ('data', 'log', 'spare', 'cache', 'special', 'dedup')
         assert vdev_type in valid_vdev_types
 
         cdef ZFSVdev vdev
         cdef NVList vdev_tree = self.get_raw_config().get_raw(zfs.ZPOOL_CONFIG_VDEV_TREE)
         raw_value = None
 
-        IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-            if vdev_type == 'special':
-                raw_value = zfs.ZPOOL_CONFIG_CHILDREN
-                valid_f = lambda c: c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_SPECIAL
-            elif vdev_type == 'dedup':
-                raw_value = zfs.ZPOOL_CONFIG_CHILDREN
-                valid_f = lambda c: c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_DEDUP
+        if vdev_type == 'special':
+            raw_value = zfs.ZPOOL_CONFIG_CHILDREN
+            valid_f = lambda c: c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_SPECIAL
+        elif vdev_type == 'dedup':
+            raw_value = zfs.ZPOOL_CONFIG_CHILDREN
+            valid_f = lambda c: c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_DEDUP
 
         if vdev_type == 'data':
             raw_value = zfs.ZPOOL_CONFIG_CHILDREN
-            IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-                valid_f = lambda c: zfs.ZPOOL_CONFIG_ALLOCATION_BIAS not in c
-            ELSE:
-                valid_f = lambda c: not c[zfs.ZPOOL_CONFIG_IS_LOG]
+            valid_f = lambda c: zfs.ZPOOL_CONFIG_ALLOCATION_BIAS not in c
         elif vdev_type == 'log':
             raw_value = zfs.ZPOOL_CONFIG_CHILDREN
-            IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-                valid_f = lambda c: (
-                    c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_LOG or c[zfs.ZPOOL_CONFIG_IS_LOG]
-                )
-            ELSE:
-                valid_f = lambda c: c[zfs.ZPOOL_CONFIG_IS_LOG]
+            valid_f = lambda c: (
+                c.get(zfs.ZPOOL_CONFIG_ALLOCATION_BIAS) == zfs.VDEV_ALLOC_BIAS_LOG or c[zfs.ZPOOL_CONFIG_IS_LOG]
+            )
         elif vdev_type == 'spare':
             raw_value = zfs.ZPOOL_CONFIG_SPARES
             valid_f = lambda c: c
@@ -3018,14 +2998,13 @@ cdef class ZFSPool(object):
         def __get__(self):
             return self.__retrieve_vdevs('spare')
 
-    IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-        property special_vdevs:
-            def __get__(self):
-                return self.__retrieve_vdevs('special')
+    property special_vdevs:
+        def __get__(self):
+            return self.__retrieve_vdevs('special')
 
-        property dedup_vdevs:
-            def __get__(self):
-                return self.__retrieve_vdevs('dedup')
+    property dedup_vdevs:
+        def __get__(self):
+            return self.__retrieve_vdevs('dedup')
 
     property groups:
         def __get__(self):
@@ -3035,11 +3014,10 @@ cdef class ZFSPool(object):
                 'cache': list(self.cache_vdevs),
                 'spare': list(self.spare_vdevs),
             }
-            IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-                groups.update({
-                    'special': list(self.special_vdevs),
-                    'dedup': list(self.dedup_vdevs),
-                })
+            groups.update({
+                'special': list(self.special_vdevs),
+                'dedup': list(self.dedup_vdevs),
+            })
             return groups
 
     property name:

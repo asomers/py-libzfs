@@ -66,13 +66,10 @@ cdef extern from "sys/fs/zfs.h" nogil:
     const char* ZPOOL_CONFIG_DRAID_NSPARES
     const char* ZPOOL_CONFIG_DRAID_NGROUPS
     const char* VDEV_TYPE_DRAID
-
-    IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-        const char* ZPOOL_CONFIG_ALLOCATION_BIAS
-        const char* VDEV_ALLOC_BIAS_LOG
-        const char* VDEV_ALLOC_BIAS_SPECIAL
-        const char* VDEV_ALLOC_BIAS_DEDUP
-
+    const char* ZPOOL_CONFIG_ALLOCATION_BIAS
+    const char* VDEV_ALLOC_BIAS_LOG
+    const char* VDEV_ALLOC_BIAS_SPECIAL
+    const char* VDEV_ALLOC_BIAS_DEDUP
     const char* VDEV_TYPE_ROOT
     const char* VDEV_TYPE_MIRROR
     const char* VDEV_TYPE_REPLACING
@@ -307,12 +304,7 @@ cdef extern from "sys/fs/zfs.h" nogil:
     int zfs_prop_index_to_string(int, uint64_t, const char **)
     int zfs_prop_string_to_index(int, const char *, uint64_t *)
     uint64_t zfs_prop_random_value(int, uint64_t seed)
-
-    IF HAVE_ZFS_PROP_VALID_FOR_TYPE == 3:
-        boolean_t zfs_prop_valid_for_type(int, zfs_type_t, boolean_t)
-    ELSE:
-        boolean_t zfs_prop_valid_for_type(int, zfs_type_t)
-
+    boolean_t zfs_prop_valid_for_type(int, zfs_type_t, boolean_t)
     int zpool_name_to_prop(const char *)
     const char *zpool_prop_to_name(int)
     const char *zpool_prop_default_string(int)
