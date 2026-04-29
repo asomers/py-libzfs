@@ -2182,12 +2182,11 @@ cdef class ZFSVdevStats(object):
             'fragmentation': self.fragmentation,
             'self_healed': self.self_healed
         }
-        IF HAVE_ZFS_VDEV_STAT_ASHIFT:
-            state.update({
-                'configured_ashift': self.configured_ashift,
-                'logical_ashift': self.logical_ashift,
-                'physical_ashift': self.physical_ashift,
-            })
+        state.update({
+            'configured_ashift': self.configured_ashift,
+            'logical_ashift': self.logical_ashift,
+            'physical_ashift': self.physical_ashift,
+        })
         return state
 
     property nvlist:
@@ -2234,18 +2233,17 @@ cdef class ZFSVdevStats(object):
         def __get__(self):
             return self.vs.vs_bytes
 
-    IF HAVE_ZFS_VDEV_STAT_ASHIFT:
-        property configured_ashift:
-            def __get__(self):
-                return self.vs.vs_configured_ashift
+    property configured_ashift:
+        def __get__(self):
+            return self.vs.vs_configured_ashift
 
-        property logical_ashift:
-            def __get__(self):
-                return self.vs.vs_logical_ashift
+    property logical_ashift:
+        def __get__(self):
+            return self.vs.vs_logical_ashift
 
-        property physical_ashift:
-            def __get__(self):
-                return self.vs.vs_physical_ashift
+    property physical_ashift:
+        def __get__(self):
+            return self.vs.vs_physical_ashift
 
     property fragmentation:
         def __get__(self):

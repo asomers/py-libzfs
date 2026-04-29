@@ -326,22 +326,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM(
 
 
 
-dnl Checking function presence of vs_*_ashift existence
-
-AC_MSG_NOTICE([Checking existence of vs_*_ashift in fs/zfs.h header])
-
-AC_LINK_IFELSE([AC_LANG_PROGRAM(
-		[#include <sys/fs/zfs.h>],
-		[
-		 	vdev_stat_t vdev_stat;
-			vdev_stat.vs_configured_ashift = 1;
-		]
-	)],
-	[AC_SUBST(HAVE_ZFS_VDEV_STAT_ASHIFT, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_ZFS_VDEV_STAT_ASHIFT, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
-
 dnl Checking function signature of zpool_get_status
 
 AC_MSG_NOTICE([Checking function signature of zpool_get_status])
