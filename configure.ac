@@ -144,20 +144,6 @@ AC_CHECK_HEADERS([sys/fs/zfs.h], [], [AC_MSG_ERROR(A working zfs header is requi
 	#include <sys/types.h>
 ])
 
-dnl Checking zpool_errata_t existence
-
-#AC_MSG_NOTICE([Checking existence of zpool_errata_t])
-
-#AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		#[#include <sys/fs/zfs.h>],
-		#[
-			#zpool_errata_t errata;
-		#]
-	#)],
-	#[AC_SUBST(HAVE_ZPOOL_ERRATA_T_ENUM, 1) AC_MSG_NOTICE([OK])],
-	#[AC_SUBST(HAVE_ZPOOL_ERRATA_T_ENUM, 0) AC_MSG_NOTICE([Not found])]
-#)
-
 
 dnl Checking typedef pool_scrub_cmd_t in zfs header
 
