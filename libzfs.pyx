@@ -477,9 +477,8 @@ class DiffRecord(object):
 
 
 
-IF HAVE_LZC_SEND_FLAG_EMBED_DATA:
-    class SendFlags(enum.IntEnum):
-        EMBED_DATA = libzfs.LZC_SEND_FLAG_EMBED_DATA
+class SendFlags(enum.IntEnum):
+    EMBED_DATA = libzfs.LZC_SEND_FLAG_EMBED_DATA
 
 
 class ZFSInvalidCachefileException(OSError):
