@@ -69,9 +69,8 @@ cdef extern from "libzfs.h" nogil:
             ZFS_MAXNAMELEN
             ZPOOL_MAXNAMELEN
 
-    IF HAVE_EZFS_SCRUB_PAUSED:
-        cdef enum:
-            EZFS_SCRUB_PAUSED
+    cdef enum:
+        EZFS_SCRUB_PAUSED
     IF HAVE_EZFS_ERRORSCRUBBING:
         cdef enum:
             EZFS_ERRORSCRUBBING
@@ -503,7 +502,7 @@ cdef extern from "libzfs.h" nogil:
     IF HAVE_ZFS_SEND_ONE == 4:
         extern int zfs_send_one(zfs_handle_t *, const char *, int, int) nogil
     ELSE:
-        extern int zfs_send_one(zfs_handle_t *, const char *, int) nogil
+        extern int zfs_send_one(zfs_handle_t *, const char *, int, sendflags_t*, const char*) nogil
 
     IF HAVE_ZFS_SEND_RESUME or HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
         extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)

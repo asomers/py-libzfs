@@ -476,20 +476,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 
 dnl Checking existence of an enum value
 
-AC_MSG_NOTICE([Checking EZFS_SCRUB_PAUSED presence])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			EZFS_SCRUB_PAUSED == EZFS_SCRUB_PAUSED /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_EZFS_SCRUB_PAUSED, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_EZFS_SCRUB_PAUSED, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
-dnl Checking existence of an enum value
-
 # NB: the ERRORSCRUBBING, ERRORSCRUB_PAUSED, and SCRUB_PAUSED_TO_CANCEL symbols
 # were all added to OpenZFS by a single commit.
 AC_MSG_NOTICE([Checking EZFS_ERRORSCRUBBING presence])
