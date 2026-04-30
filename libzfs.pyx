@@ -1275,7 +1275,7 @@ cdef class ZFS(object):
             try:
                 root = p.get_root_dataset(props=props)
                 yield root
-                for c in root.children_recursive(props=props):
+                for c in root.get_children_recursive(props=props):
                     yield c
             except ZFSException:
                 continue
@@ -1411,7 +1411,7 @@ cdef class ZFS(object):
         failed_loading_keys = []
         if load_keys:
             root_ds = newpool.root_dataset
-            for ds in itertools.chain([root_ds], root_ds.children_recursive()):
+            for ds in itertools.chain([root_ds], root_ds.get_children_recursive()):
                 if ds.encryption_root and not ds.key_loaded:
                     try:
                         ds.load_key()
@@ -2018,7 +2018,7 @@ cdef class ZFSProperty(object):
 
         dsets = [self.dataset]
         if recursive:
-            dsets.extend(list(self.dataset.children_recursive()))
+            dsets.extend(list(self.dataset.get_children_recursive()))
             prop = <zfs.zfs_prop_t>zfs.zfs_name_to_prop(self.cname)
 
         for d in dsets:
