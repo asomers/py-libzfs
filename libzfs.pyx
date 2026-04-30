@@ -1303,7 +1303,11 @@ cdef class ZFS(object):
                 with nogil:
                     libzfs.libzfs_mnttab_cache(self.handle, False)
 
-    def datasets(self, props=None):
+    property datasets:
+        def __get__(self):
+            self.get_datasets()
+
+    def get_datasets(self, props=None):
         for p in self.pools:
             try:
                 root = p.get_root_dataset(props=props)
@@ -1313,10 +1317,14 @@ cdef class ZFS(object):
             except ZFSException:
                 continue
 
-    def snapshots(self, props=None):
+    property snapshots:
+        def __get__(self):
+            self.get_snapshots(self)
+
+    def get_napshots(self, props=None):
         for p in self.pools:
             try:
-                for c in p.get_root_dataset().snapshots_recursive(props=props):
+                for c in p.get_root_dataset().get_snapshots_recursive(props=props):
                     yield c
             except ZFSException:
                 continue
@@ -3921,13 +3929,13 @@ cdef class ZFSDataset(ZFSResource):
         ret['mountpoint'] = self.mountpoint
 
         if recursive:
-            ret['children'] = [i.asdict() for i in self.children()]
+            ret['children'] = [i.asdict() for i in self.get_children()]
 
         if snapshots:
-            ret['snapshots'] = [s.asdict() for s in self.snapshots()]
+            ret['snapshots'] = [s.asdict() for s in self.get_snapshots()]
 
         if snapshots_recursive:
-            ret['snapshots_recursive'] = [s.asdict() for s in self.snapshots_recursive()]
+            ret['snapshots_recursive'] = [s.asdict() for s in self.get_snapshots_recursive()]
 
         IF HAVE_ZFS_ENCRYPTION:
             root = self.encryption_root
@@ -4031,7 +4039,11 @@ cdef class ZFSDataset(ZFSResource):
 
         return snap_config['snapshots']
 
-    def children(self, props=None):
+    property children:
+        def __get__(self):
+            self.get_children()
+
+    def get_children(self, props=None):
         cdef ZFSDataset dataset
         cdef iter_state iter
         cdef libzfs.zfs_iter_f iterate_func
@@ -4064,13 +4076,21 @@ cdef class ZFSDataset(ZFSResource):
 
                 free(iter.array)
 
-    def children_recursive(self, props=None):
+    property children_recursive:
+        def __get__(self):
+            self.get_children_recursive()
+
+    def get_children_recursive(self, props=None):
         for c in self.children(props=props):
             yield c
             for i in c.children_recursive(props=props):
                 yield i
 
-    def snapshots(self, props=None):
+    property snapshots:
+        def __get__(self):
+            self.get_snapshots()
+
+    def get_snapshots(self, props=None):
         cdef ZFSSnapshot snapshot
         cdef iter_state iter
         cdef libzfs.zfs_iter_f iterate_func
@@ -4137,15 +4157,19 @@ cdef class ZFSDataset(ZFSResource):
 
                     free(iter.array)
 
-    def snapshots_recursive(self, props=None):
+    property snapshots_recursive:
+        def __get__(self):
+            self.get_snapshots_recursive()
+
+    def get_snapshots_recursive(self, props=None):
         for s in self.snapshots(props=props):
             yield s
 
-        for c in self.children():
-            for s in c.snapshots(props=props):
+        for c in self.get_children(props=[]):
+            for s in c.get_snapshots(props=props):
                 yield s
-            for i in c.children_recursive():
-                for s in i.snapshots(props=props):
+            for i in c.get_children_recursive(props=[]):
+                for s in i.get_snapshots(props=props):
                     yield s
 
     property dependents:
@@ -4218,7 +4242,7 @@ cdef class ZFSDataset(ZFSResource):
 
                 failed = []
                 tried = 0
-                for child in itertools.chain([self], self.children_recursive() if recursive else []):
+                for child in itertools.chain([self], self.get_children_recursive() if recursive else []):
                     if (
                         (
                             (child.encryption_root == child and not child.key_loaded) or (
