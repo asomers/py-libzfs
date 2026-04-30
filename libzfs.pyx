@@ -286,17 +286,16 @@ class ZIOType(enum.IntEnum):
     IOCTL = zfs.ZIO_TYPE_IOCTL
 
 
-IF HAVE_LZC_WAIT:
-    class ZpoolWaitActivity(enum.IntEnum):
-        DISCARD = zfs.ZPOOL_WAIT_CKPT_DISCARD
-        FREE = zfs.ZPOOL_WAIT_FREE
-        INITIALIZE = zfs.ZPOOL_WAIT_INITIALIZE
-        REPLACE = zfs.ZPOOL_WAIT_REPLACE
-        REMOVE = zfs.ZPOOL_WAIT_REMOVE
-        RESILVER = zfs.ZPOOL_WAIT_RESILVER
-        SCRUB = zfs.ZPOOL_WAIT_SCRUB
-        TRIM = zfs.ZPOOL_WAIT_TRIM
-        NUM_ACTIVITIES = zfs.ZPOOL_WAIT_NUM_ACTIVITIES
+class ZpoolWaitActivity(enum.IntEnum):
+    DISCARD = zfs.ZPOOL_WAIT_CKPT_DISCARD
+    FREE = zfs.ZPOOL_WAIT_FREE
+    INITIALIZE = zfs.ZPOOL_WAIT_INITIALIZE
+    REPLACE = zfs.ZPOOL_WAIT_REPLACE
+    REMOVE = zfs.ZPOOL_WAIT_REMOVE
+    RESILVER = zfs.ZPOOL_WAIT_RESILVER
+    SCRUB = zfs.ZPOOL_WAIT_SCRUB
+    TRIM = zfs.ZPOOL_WAIT_TRIM
+    NUM_ACTIVITIES = zfs.ZPOOL_WAIT_NUM_ACTIVITIES
 
 
 class FeatureState(enum.Enum):
@@ -3149,21 +3148,20 @@ cdef class ZFSPool(object):
             def __get__(self):
                 return ZPoolRaidzExpand(self.root, self)
 
-    IF HAVE_LZC_WAIT:
-        def wait(self, operation_type):
-            if operation_type not in ZpoolWaitActivity.__members__:
-                raise ZFSException(py_errno.EINVAL, 'Specify valid operation type for wait')
-            return self._wait_impl(getattr(ZpoolWaitActivity, operation_type).value)
+    def wait(self, operation_type):
+        if operation_type not in ZpoolWaitActivity.__members__:
+            raise ZFSException(py_errno.EINVAL, 'Specify valid operation type for wait')
+        return self._wait_impl(getattr(ZpoolWaitActivity, operation_type).value)
 
-        def _wait_impl(self, operation_type):
-            cdef int ret
-            cdef zfs.zpool_wait_activity_t c_activity_type = ZpoolWaitActivity(int(operation_type))
-            cdef const char * pool_name = self.name
+    def _wait_impl(self, operation_type):
+        cdef int ret
+        cdef zfs.zpool_wait_activity_t c_activity_type = ZpoolWaitActivity(int(operation_type))
+        cdef const char * pool_name = self.name
 
-            with nogil:
-                ret = libzfs.lzc_wait(pool_name, c_activity_type, NULL)
-            if ret != 0:
-                raise OSError(ret, os.strerror(ret))
+        with nogil:
+            ret = libzfs.lzc_wait(pool_name, c_activity_type, NULL)
+        if ret != 0:
+            raise OSError(ret, os.strerror(ret))
 
     def sync(self, force=False):
         cdef int ret

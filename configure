@@ -667,7 +667,6 @@ HAVE_SPA_FEATURE_RESILVER_DEFER
 SPA_FEATURE_ENCRYPTION
 HAVE_SPA_FEATURE_ENCRYPTION
 HAVE_ZFEATURE_COMMON_HEADER
-HAVE_LZC_WAIT
 HAVE_POOL_SCAN_STAT_PSS_SKIPPED
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
@@ -4799,40 +4798,6 @@ esac
 fi
 
 done
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying lzc_wait existence" >&5
-printf '%s\n' "$as_me: Verifying lzc_wait existence" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs_core.h>
-int
-main (void)
-{
-
-			lzc_wait(NULL, 0, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_LZC_WAIT=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_LZC_WAIT=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 
 

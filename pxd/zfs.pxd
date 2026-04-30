@@ -95,17 +95,16 @@ cdef extern from "sys/fs/zfs.h" nogil:
     ctypedef enum zpool_errata_t:
         pass
 
-    IF HAVE_LZC_WAIT:
-        ctypedef enum zpool_wait_activity_t:
-            ZPOOL_WAIT_CKPT_DISCARD,
-            ZPOOL_WAIT_FREE,
-            ZPOOL_WAIT_INITIALIZE,
-            ZPOOL_WAIT_REPLACE,
-            ZPOOL_WAIT_REMOVE,
-            ZPOOL_WAIT_RESILVER,
-            ZPOOL_WAIT_SCRUB,
-            ZPOOL_WAIT_TRIM,
-            ZPOOL_WAIT_NUM_ACTIVITIES
+    ctypedef enum zpool_wait_activity_t:
+        ZPOOL_WAIT_CKPT_DISCARD,
+        ZPOOL_WAIT_FREE,
+        ZPOOL_WAIT_INITIALIZE,
+        ZPOOL_WAIT_REPLACE,
+        ZPOOL_WAIT_REMOVE,
+        ZPOOL_WAIT_RESILVER,
+        ZPOOL_WAIT_SCRUB,
+        ZPOOL_WAIT_TRIM,
+        ZPOOL_WAIT_NUM_ACTIVITIES
 
     ctypedef enum zpool_prefetch_type_t:
         ZPOOL_PREFETCH_NONE
