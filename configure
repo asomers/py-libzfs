@@ -632,12 +632,6 @@ ZFS_PROP_PROJECTQUOTA
 ZFS_PROP_PROJECTUSED
 SPA_FEATURE_PROJECT_QUOTA
 HAVE_SPA_FEATURE_PROJECT_QUOTA
-ZFS_PROP_GROUPOBJQUOTA
-ZFS_PROP_GROUPOBJUSED
-ZFS_PROP_USEROBJQUOTA
-ZFS_PROP_USEROBJUSED
-SPA_FEATURE_USEROBJ_ACCOUNTING
-HAVE_SPA_FEATURE_USEROBJ_ACCOUNTING
 SPA_FEATURE_BLAKE3
 HAVE_SPA_FEATURE_BLAKE3
 SPA_FEATURE_HEAD_ERRLOG
@@ -4877,56 +4871,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 
-
-
-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-		#include <zfeature_common.h>
-int
-main (void)
-{
-
-				spa_feature_t f = SPA_FEATURE_USEROBJ_ACCOUNTING /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_SPA_FEATURE_USEROBJ_ACCOUNTING=1
- SPA_FEATURE_USEROBJ_ACCOUNTING="SPA_FEATURE_USEROBJ_ACCOUNTING"
-
-		ZFS_PROP_USEROBJUSED="ZFS_PROP_USEROBJUSED"
-
-		ZFS_PROP_USEROBJQUOTA="ZFS_PROP_USEROBJQUOTA"
-
-		ZFS_PROP_GROUPOBJUSED="ZFS_PROP_GROUPOBJUSED"
-
-		ZFS_PROP_GROUPOBJQUOTA="ZFS_PROP_GROUPOBJQUOTA"
-
-
-else case e in #(
-  e) HAVE_SPA_FEATURE_USEROBJ_ACCOUNTING=0
- SPA_FEATURE_USEROBJ_ACCOUNTING="# SPA_FEATURE_USEROBJ_ACCOUNTING not defined"
-
-		ZFS_PROP_USEROBJUSED="# ZFS_PROP_USEROBJUSED not defined"
-
-		ZFS_PROP_USEROBJQUOTA="# ZFS_PROP_USEROBJQUOTA not defined"
-
-		ZFS_PROP_GROUPOBJUSED="# ZFS_PROP_GROUPOBJUSED not defined"
-
-		ZFS_PROP_GROUPOBJQUOTA="# ZFS_PROP_GROUPOBJQUOTA not defined"
-
-
-
-	 ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
 
 
 	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
