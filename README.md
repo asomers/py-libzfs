@@ -1,11 +1,5 @@
 py-libzfs
-======
-
-> [!WARNING]
-> **Deprecation Notice:** This repository is deprecated. TrueNAS is transitioning its Python ZFS bindings to
-> [github.com/truenas/truenas_pylibzfs](https://github.com/truenas/truenas_pylibzfs). Note that the new
-> repository is Linux-only and targets the ZFS version distributed with TrueNAS. This repository will no
-> longer receive updates.
+=========
 
 **Python bindings for libzfs**
 
@@ -32,4 +26,12 @@ Get help:
 
 `help(libzfs)`
 
+**HISTORY**
 
+py-libzfs originated at ixSystems, where it was a part of FreeNAS.  They
+separated it into its own project in 2015.  In 2026 they deprecated py-libzfs,
+replacing it with truenas_pylibzfs[^1], which has a very different design.
+However, that library is only maintained for TrueNAS Scale, and isn't portable.
+So ConnectWise took over maintenance of the legacy py-libzfs.
+
+[^1]: [truenas_pylibzfs](https://github.com/truenas/truenas_pylibzfs)
