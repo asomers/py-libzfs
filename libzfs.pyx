@@ -316,18 +316,12 @@ class SendFlag(enum.Enum):
     PROGRESS = 7
     LARGEBLOCK = 8
     EMBED_DATA = 9
-    IF HAVE_SENDFLAGS_T_COMPRESS:
-        COMPRESS = 10
-    IF HAVE_SENDFLAGS_T_RAW:
-        RAW = 11
-    IF HAVE_SENDFLAGS_T_BACKUP:
-        BACKUP = 12
-    IF HAVE_SENDFLAGS_T_HOLDS:
-        HOLDS = 13
-    IF HAVE_SENDFLAGS_T_SAVED:
-        SAVED = 14
-    IF HAVE_SENDFLAGS_T_PROGRESSASTITLE:
-        PROGRESSASTITLE = 15
+    COMPRESS = 10
+    RAW = 11
+    BACKUP = 12
+    HOLDS = 13
+    SAVED = 14
+    PROGRESSASTITLE = 15
 
 
 class DiffRecordType(enum.Enum):
@@ -4662,29 +4656,23 @@ cdef convert_sendflags(flags, libzfs.sendflags_t *cflags):
     if SendFlag.EMBED_DATA in flags:
         cflags.embed_data = 1
 
-    IF HAVE_SENDFLAGS_T_COMPRESS:
-        if SendFlag.COMPRESS in flags:
-            cflags.compress = 1
+    if SendFlag.COMPRESS in flags:
+        cflags.compress = 1
 
-    IF HAVE_SENDFLAGS_T_RAW:
-        if SendFlag.RAW in flags:
-            cflags.raw = 1
+    if SendFlag.RAW in flags:
+        cflags.raw = 1
 
-    IF HAVE_SENDFLAGS_T_BACKUP:
-        if SendFlag.BACKUP in flags:
-            cflags.backup = 1
+    if SendFlag.BACKUP in flags:
+        cflags.backup = 1
 
-    IF HAVE_SENDFLAGS_T_HOLDS:
-        if SendFlag.HOLDS in flags:
-            cflags.holds = 1
+    if SendFlag.HOLDS in flags:
+        cflags.holds = 1
 
-    IF HAVE_SENDFLAGS_T_SAVED:
-        if SendFlag.SAVED in flags:
-            cflags.saved = 1
+    if SendFlag.SAVED in flags:
+        cflags.saved = 1
 
-    IF HAVE_SENDFLAGS_T_PROGRESSASTITLE:
-        if SendFlag.PROGRESSASTITLE in flags:
-            cflags.progressastitle = 1
+    if SendFlag.PROGRESSASTITLE in flags:
+        cflags.progressastitle = 1
 
 
 def nicestrtonum(ZFS zfs, value):
