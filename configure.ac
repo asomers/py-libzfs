@@ -562,13 +562,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	[AC_SUBST(HAVE_EZFS_ASHIFT_MISMATCH, 0) AC_MSG_NOTICE([NOT FOUND])]
 )
 
-
-
-dnl Checking ZFS_MAXNAMELEN
-
-AX_CHECK_DEFINE([libzfs.h], [ZFS_MAXNAMELEN], [AC_SUBST(HAVE_ZFS_MAXNAMELEN, 1)], [AC_SUBST(HAVE_ZFS_MAXNAMELEN, 0)])
-
-
 dnl Checking renameflags_t existence
 
 AC_MSG_NOTICE([Checking existence of renameflags_t in libzfs.h])

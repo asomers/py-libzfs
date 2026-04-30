@@ -64,7 +64,7 @@ cdef extern from "libzfs.h" nogil:
         MAXNAMELEN
         MAXPATHLEN
 
-    IF HAVE_ZFS_MAXNAMELEN or HAVE_ZPOOL_MAXNAMELEN:
+    IF HAVE_ZPOOL_MAXNAMELEN:
         cdef enum:
             ZFS_MAXNAMELEN
             ZPOOL_MAXNAMELEN
