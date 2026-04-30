@@ -3619,34 +3619,18 @@ cdef class ZFSObject(object):
         cdef const char *c_new_name = new_name
         cdef int ret
 
-        IF HAVE_RENAMEFLAGS_T:
-            cdef libzfs.renameflags_t flags
-            IF HAVE_RENAMEFLAGS_T_RECURSE:
-                flags.recurse = recursive
+        cdef libzfs.renameflags_t flags
+        flags.recursive = recursive
+        flags.nounmount = nounmount
+        flags.forceunmount = forceunmount
+
+        with nogil:
+            IF HAVE_ZFS_RENAME == 4:
+                ret = libzfs.zfs_rename(self.handle, NULL, c_new_name, flags)
             ELSE:
-                flags.recursive = recursive
-            flags.nounmount = nounmount
-            flags.forceunmount = forceunmount
+                ret = libzfs.zfs_rename(self.handle, c_new_name, flags)
 
-            with nogil:
-                IF HAVE_ZFS_RENAME == 4:
-                    ret = libzfs.zfs_rename(self.handle, NULL, c_new_name, flags)
-                ELSE:
-                    ret = libzfs.zfs_rename(self.handle, c_new_name, flags)
-
-            history = ['zfs rename', '-f' if forceunmount else '', '-u' if nounmount else '', self.name]
-
-        ELSE:
-            if nounmount:
-                raise RuntimeError('nounmount option is not supported on this system')
-
-            cdef boolean_t recursive_f = recursive
-            cdef boolean_t force_unmount_f = forceunmount
-
-            with nogil:
-                ret = libzfs.zfs_rename(self.handle, c_new_name, recursive_f, force_unmount_f)
-
-            history = ['zfs rename', '-f' if forceunmount else '', self.name]
+        history = ['zfs rename', '-f' if forceunmount else '', '-u' if nounmount else '', self.name]
 
         if ret != 0:
             raise self.root.get_error()

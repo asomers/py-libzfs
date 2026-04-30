@@ -691,9 +691,7 @@ HAVE_SENDFLAGS_T_TYPEDEF
 HAVE_POOL_SCAN_STAT_PSS_SKIPPED
 HAVE_RECVFLAGS_T_RESUMABLE
 HAVE_ZPOOL_MAXNAMELEN
-HAVE_RENAMEFLAGS_T_RECURSE
 HAVE_ZFS_RENAME
-HAVE_RENAMEFLAGS_T
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
 HAVE_EZFS_SHAREFAILED
@@ -4766,8 +4764,8 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
 
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking existence of renameflags_t in libzfs.h" >&5
-printf '%s\n' "$as_me: Checking existence of renameflags_t in libzfs.h" >&6;}
+{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking function signature of zfs_rename in libzfs.h" >&5
+printf '%s\n' "$as_me: Checking function signature of zfs_rename in libzfs.h" >&6;}
 
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -4777,77 +4775,7 @@ main (void)
 {
 
 			renameflags_t flag;
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_RENAMEFLAGS_T=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_RENAMEFLAGS_T=0
- HAVE_ZFS_RENAME=4
- HAVE_RENAMEFLAGS_T_RECURSE=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
-if test "$HAVE_RENAMEFLAGS_T" == 1
-then
-
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking renameflags_t member names in libzfs.h" >&5
-printf '%s\n' "$as_me: Checking renameflags_t member names in libzfs.h" >&6;}
-
-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-				renameflags_t flags = { 0 };
-				flags.recurse = 1;
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_RENAMEFLAGS_T_RECURSE=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: RECURSE member found" >&5
-printf '%s\n' "$as_me: RECURSE member found" >&6;}
-else case e in #(
-  e) HAVE_RENAMEFLAGS_T_RECURSE=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: RECURSIVE member found" >&5
-printf '%s\n' "$as_me: RECURSIVE member found" >&6;}
-	 ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking function signature of zfs_rename in libzfs.h" >&5
-printf '%s\n' "$as_me: Checking function signature of zfs_rename in libzfs.h" >&6;}
-
-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-				renameflags_t flag;
-				zfs_rename(NULL, NULL, NULL, flag);
+			zfs_rename(NULL, NULL, NULL, flag);
 
 
   ;
@@ -4863,11 +4791,10 @@ else case e in #(
   e) HAVE_ZFS_RENAME=3
  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 3 PARAMS" >&5
 printf '%s\n' "$as_me: 3 PARAMS" >&6;}
-	 ;;
+ ;;
 esac
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
 
 
 
