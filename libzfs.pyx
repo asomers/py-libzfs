@@ -1319,9 +1319,9 @@ cdef class ZFS(object):
 
     property snapshots:
         def __get__(self):
-            return self.get_snapshots(self)
+            return self.get_snapshots()
 
-    def get_napshots(self, props=None):
+    def get_snapshots(self, props=None):
         for p in self.pools:
             try:
                 for c in p.get_root_dataset().get_snapshots_recursive(props=props):
