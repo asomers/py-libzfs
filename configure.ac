@@ -587,16 +587,6 @@ AC_CHECK_HEADERS([libzfs_core.h], [], [AC_MSG_ERROR(A working libzfs_core header
 ])
 
 
-SECTION_TITLE([RUNNING TESTS ON zfeature_common.h HEADER])
-
-AC_MSG_NOTICE([Verifying existence of zfeature_common.h])
-
-AC_CHECK_HEADERS([zfeature_common.h],
-	[AC_SUBST(HAVE_ZFEATURE_COMMON_HEADER, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_ZFEATURE_COMMON_HEADER, 0) AC_MSG_NOTICE([NOT FOUND])],
-	[]
-)
-
 AC_MSG_NOTICE([Checking supported SPA features])
 
 # SPA_FEATURE_CHECK(feature, [success], [failure])
@@ -623,19 +613,9 @@ dnl USEROBJ_ACCOUNTING and PROJECT_QUOTA are separate so
 dnl we can also generate the enum for zfs_userquota_prop_t
 dnl appropriately.
 dnl
-dnl Current oldest supported ZFS is for FreeBSD 12.3
+dnl Current oldest supported ZFS is for FreeBSD 13.5
 m4_foreach([feature],
-	   [[SPA_FEATURE_ENCRYPTION],
-	    [SPA_FEATURE_RESILVER_DEFER],
-	    [SPA_FEATURE_BOOKMARK_V2],
-	    [SPA_FEATURE_REDACTION_BOOKMARKS],
-	    [SPA_FEATURE_REDACTED_DATASETS],
-	    [SPA_FEATURE_BOOKMARK_WRITTEN],
-	    [SPA_FEATURE_LOG_SPACEMAP],
-	    [SPA_FEATURE_LIVELIST],
-	    [SPA_FEATURE_DEVICE_REBUILD],
-	    [SPA_FEATURE_ZSTD_COMPRESS],
-	    [SPA_FEATURE_DRAID],
+	   [
 	    [SPA_FEATURE_ZILSAXATTR],
 	    [SPA_FEATURE_HEAD_ERRLOG],
 	    [SPA_FEATURE_BLAKE3]],
