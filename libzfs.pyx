@@ -1344,16 +1344,12 @@ cdef class ZFS(object):
             lpch.lpc_printerr = True
 
         with nogil:
-            IF HAVE_THREAD_INIT_FINI:
-                thread_init()
             IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
                 result = libzfs.zpool_search_import(self.handle, &iargs, &libzfs.libzfs_config_ops)
             ELIF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 2:
                 result = libzfs.zpool_search_import(&lpch, &iargs)
             ELSE:
                 result = libzfs.zpool_search_import(self.handle, &iargs)
-            IF HAVE_THREAD_INIT_FINI:
-                thread_fini()
 
         if iargs.path != NULL:
             free(iargs.path)

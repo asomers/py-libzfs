@@ -623,7 +623,6 @@ ac_includes_default="\
 ac_header_c_list=
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-HAVE_THREAD_INIT_FINI
 HAVE_NVPAIR_IN_SYS
 HAVE_ZFS_IOCTL_HEADER
 SPA_FEATURE_BLAKE3
@@ -4927,65 +4926,6 @@ fi
 
 done
 
-
-
-	echo >& 6
-	echo '   RUNNING TESTS ON sys/zfs_context_userland.h HEADER   ' | sed -e's/./-/g' >&6
-	echo '   RUNNING TESTS ON sys/zfs_context_userland.h HEADER' >& 6
-	echo '   RUNNING TESTS ON sys/zfs_context_userland.h HEADER   ' | sed -e's/./-/g' >&6
-
-
-exists=0
-       for ac_header in sys/zfs_context_userland.h
-do :
-  ac_fn_c_check_header_compile "$LINENO" "sys/zfs_context_userland.h" "ac_cv_header_sys_zfs_context_userland_h" "
-
-"
-if test "x$ac_cv_header_sys_zfs_context_userland_h" = xyes
-then :
-  printf '%s\n' "#define HAVE_SYS_ZFS_CONTEXT_USERLAND_H 1" >>confdefs.h
- exists=1
-else case e in #(
-  e) HAVE_THREAD_INIT_FINI=0
- ;;
-esac
-fi
-
-done
-if test "$exists" == 1
-then
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying existence of thread_init and thread_fini" >&5
-printf '%s\n' "$as_me: Verifying existence of thread_init and thread_fini" >&6;}
-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <sys/zfs_context_userland.h>
-int
-main (void)
-{
-
-				thread_init();
-				thread_fini();
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  HAVE_THREAD_INIT_FINI=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_THREAD_INIT_FINI=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
-	 ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-fi
 
 
 	echo >& 6
