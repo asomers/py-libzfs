@@ -1760,23 +1760,22 @@ cdef class ZFS(object):
                 out.extend(other)
         return out
 
-    IF HAVE_SENDFLAGS_T_TYPEDEF:
-        def send_resume(self, fd, token, flags=None):
-            cdef libzfs.sendflags_t cflags
-            cdef int ret, c_fd
-            cdef char *c_token = token
+    def send_resume(self, fd, token, flags=None):
+        cdef libzfs.sendflags_t cflags
+        cdef int ret, c_fd
+        cdef char *c_token = token
 
-            memset(&cflags, 0, cython.sizeof(libzfs.sendflags_t))
+        memset(&cflags, 0, cython.sizeof(libzfs.sendflags_t))
 
-            if flags:
-                convert_sendflags(flags, &cflags)
+        if flags:
+            convert_sendflags(flags, &cflags)
 
-            c_fd = fd
-            with nogil:
-                ret = libzfs.zfs_send_resume(self.handle, &cflags, c_fd, c_token)
+        c_fd = fd
+        with nogil:
+            ret = libzfs.zfs_send_resume(self.handle, &cflags, c_fd, c_token)
 
-            if ret != 0:
-                raise ZFSException(self.errno, self.errstr)
+        if ret != 0:
+            raise ZFSException(self.errno, self.errstr)
 
     def describe_resume_token(self, token):
         cdef nvpair.nvlist_t *nvl

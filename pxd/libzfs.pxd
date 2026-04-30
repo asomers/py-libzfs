@@ -4,8 +4,7 @@
 include "config.pxi"
 include "zpool_status.pxi"
 
-IF HAVE_SENDFLAGS_T_TYPEDEF:
-    include "sendflags.pxi"
+include "sendflags.pxi"
 
 cimport nvpair
 cimport zfs

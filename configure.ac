@@ -578,23 +578,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 )
 
 
-
-dnl Checking typedef sendflags_t in zfs header
-
-AC_MSG_NOTICE([Checking typedef sendflags_t in libzfs header])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			int i = sizeof(sendflags_t);
-			i = i; /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_SENDFLAGS_T_TYPEDEF, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_SENDFLAGS_T_TYPEDEF, 0) AC_MSG_NOTICE([Not found])]
-)
-
-
 dnl Checking attribute name for verbose in sendflags_t struct
 
 AC_MSG_NOTICE([Checking attribute name for verbose in sendflags_t struct])

@@ -687,7 +687,6 @@ SENDFLAGS_T_DEDUP
 HAVE_SENDFLAGS_T_DEDUP
 SENDFLAGS_T_VERBOSITY
 HAVE_SENDFLAGS_T_VERBOSITY
-HAVE_SENDFLAGS_T_TYPEDEF
 HAVE_POOL_SCAN_STAT_PSS_SKIPPED
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
@@ -4788,41 +4787,6 @@ else case e in #(
   e) HAVE_POOL_SCAN_STAT_PSS_SKIPPED=0
  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
 printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking typedef sendflags_t in libzfs header" >&5
-printf '%s\n' "$as_me: Checking typedef sendflags_t in libzfs header" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			int i = sizeof(sendflags_t);
-			i = i; /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_SENDFLAGS_T_TYPEDEF=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_SENDFLAGS_T_TYPEDEF=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Not found" >&5
-printf '%s\n' "$as_me: Not found" >&6;}
  ;;
 esac
 fi
