@@ -1305,7 +1305,7 @@ cdef class ZFS(object):
 
     property datasets:
         def __get__(self):
-            self.get_datasets()
+            return self.get_datasets()
 
     def get_datasets(self, props=None):
         for p in self.pools:
@@ -1319,7 +1319,7 @@ cdef class ZFS(object):
 
     property snapshots:
         def __get__(self):
-            self.get_snapshots(self)
+            return self.get_snapshots(self)
 
     def get_napshots(self, props=None):
         for p in self.pools:
@@ -4078,12 +4078,12 @@ cdef class ZFSDataset(ZFSResource):
 
     property children_recursive:
         def __get__(self):
-            self.get_children_recursive()
+            return self.get_children_recursive()
 
     def get_children_recursive(self, props=None):
-        for c in self.children(props=props):
+        for c in self.get_children(props=props):
             yield c
-            for i in c.children_recursive(props=props):
+            for i in c.get_children_recursive(props=props):
                 yield i
 
     property snapshots:
@@ -4159,7 +4159,7 @@ cdef class ZFSDataset(ZFSResource):
 
     property snapshots_recursive:
         def __get__(self):
-            self.get_snapshots_recursive()
+            return self.get_snapshots_recursive()
 
     def get_snapshots_recursive(self, props=None):
         for s in self.snapshots(props=props):
@@ -4287,7 +4287,7 @@ cdef class ZFSDataset(ZFSResource):
             cdef ZFSDataset dataset
             failed = []
             tried = 0
-            for child in itertools.chain([self], self.children_recursive() if recursive else []):
+            for child in itertools.chain([self], self.get_children_recursive() if recursive else []):
                 if (child.encryption_root == child and child.key_loaded) or (child == self and not recursive):
                     dataset = child
                     with nogil:
@@ -4411,7 +4411,7 @@ cdef class ZFSDataset(ZFSResource):
                 if not ignore_errors:
                     raise
 
-        for i in self.children():
+        for i in self.children:
             i._mount_recursive(ignore_errors, skip_unloaded_keys, force_mount)
 
     def umount(self, force=False):
@@ -4435,7 +4435,7 @@ cdef class ZFSDataset(ZFSResource):
 
         self.umount(force)
 
-        for i in self.children():
+        for i in self.children:
             i.umount_recursive(force)
 
     def send(self, fd, fromname=None, toname=None, flags=None):
