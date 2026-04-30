@@ -252,8 +252,7 @@ class PoolStatus(enum.IntEnum):
     IO_FAILURE_CONTINUE = libzfs.ZPOOL_STATUS_IO_FAILURE_CONTINUE
     IO_FAILURE_MMP = libzfs.ZPOOL_STATUS_IO_FAILURE_MMP
     BAD_LOG = libzfs.ZPOOL_STATUS_BAD_LOG
-    IF HAVE_ZPOOL_STATUS_ERRATA:
-        ERRATA = libzfs.ZPOOL_STATUS_ERRATA
+    ERRATA = libzfs.ZPOOL_STATUS_ERRATA
     UNSUP_FEAT_READ = libzfs.ZPOOL_STATUS_UNSUP_FEAT_READ
     UNSUP_FEAT_WRITE = libzfs.ZPOOL_STATUS_UNSUP_FEAT_WRITE
     FAULTED_DEV_R = libzfs.ZPOOL_STATUS_FAULTED_DEV_R
@@ -3114,9 +3113,8 @@ cdef class ZFSPool(object):
                 PoolStatus.HOSTID_MISMATCH: 'Mismatch between pool hostid and system hostid on imported pool. This '
                                             'pool was previously imported into a system with a different hostid, and '
                                             'then was verbatim imported into this system.',
+                PoolStatus.ERRATA: 'Errata detected.',
             }
-            IF HAVE_ZPOOL_STATUS_ERRATA:
-                status_mapping[PoolStatus.ERRATA] = 'Errata detected.'
             IF HAVE_ZPOOL_STATUS_REBUILDING:
                 status_mapping[PoolStatus.REBUILDING] = 'One or more devices is currently being resilvered. The pool '\
                                                         'will continue to function, possibly in a degraded state.'

@@ -565,27 +565,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 
 dnl Checking existence of an enum value
 
-AC_MSG_NOTICE([Checking ZPOOL_STATUS_ERRATA presence])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			zpool_status_t status = ZPOOL_STATUS_ERRATA /* ; */
-		]
-	)],[
-		AC_SUBST(HAVE_ZPOOL_STATUS_ERRATA, 1)
-		AC_SUBST(ZPOOL_STATUS_ERRATA, "ZPOOL_STATUS_ERRATA")
-		AC_MSG_NOTICE([OK])
-	],[
-		AC_SUBST(HAVE_ZPOOL_STATUS_ERRATA, 0)
-		AC_SUBST(ZPOOL_STATUS_ERRATA, ["# ZPOOL_STATUS_ERRATA not defined"])
-		AC_MSG_NOTICE([NOT FOUND])
-	]
-)
-
-
-dnl Checking existence of an enum value
-
 AC_MSG_NOTICE([Checking ZPOOL_STATUS_REBUILDING presence])
 
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(

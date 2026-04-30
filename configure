@@ -707,8 +707,6 @@ ZPOOL_STATUS_REBUILD_SCRUB
 HAVE_ZPOOL_STATUS_REBUILD_SCRUB
 ZPOOL_STATUS_REBUILDING
 HAVE_ZPOOL_STATUS_REBUILDING
-ZPOOL_STATUS_ERRATA
-HAVE_ZPOOL_STATUS_ERRATA
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
 HAVE_EZFS_SHAREFAILED
@@ -716,7 +714,6 @@ HAVE_EZFS_RESUME_EXISTS
 HAVE_EZFS_NOT_USER_NAMESPACE
 HAVE_EZFS_VDEV_NOTSUP
 HAVE_EZFS_ERRORSCRUBBING
-HAVE_EZFS_SCRUB_PAUSED
 HAVE_ZFS_USERSPACE_CB_T
 HAVE_ZFS_SEND_ONE
 HAVE_ZFS_ITER_CHILDREN
@@ -4568,38 +4565,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
 
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking EZFS_SCRUB_PAUSED presence" >&5
-printf '%s\n' "$as_me: Checking EZFS_SCRUB_PAUSED presence" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			EZFS_SCRUB_PAUSED == EZFS_SCRUB_PAUSED /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_EZFS_SCRUB_PAUSED=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_EZFS_SCRUB_PAUSED=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
 # NB: the ERRORSCRUBBING, ERRORSCRUB_PAUSED, and SCRUB_PAUSED_TO_CANCEL symbols
 # were all added to OpenZFS by a single commit.
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking EZFS_ERRORSCRUBBING presence" >&5
@@ -4808,49 +4773,6 @@ else case e in #(
   e) HAVE_EZFS_ASHIFT_MISMATCH=0
  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
 printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking ZPOOL_STATUS_ERRATA presence" >&5
-printf '%s\n' "$as_me: Checking ZPOOL_STATUS_ERRATA presence" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zpool_status_t status = ZPOOL_STATUS_ERRATA /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-
-		HAVE_ZPOOL_STATUS_ERRATA=1
-
-		ZPOOL_STATUS_ERRATA="ZPOOL_STATUS_ERRATA"
-
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-
-else case e in #(
-  e)
-		HAVE_ZPOOL_STATUS_ERRATA=0
-
-		ZPOOL_STATUS_ERRATA="# ZPOOL_STATUS_ERRATA not defined"
-
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
-
  ;;
 esac
 fi
