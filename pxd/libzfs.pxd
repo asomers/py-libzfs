@@ -1,5 +1,5 @@
 # encoding: utf-8
-# cython: language_level=3, c_string_type=unicode, c_string_encoding=default
+# cython: language_level=3, c_string_type=unicode, c_string_encoding=default, legacy_implicit_noexcept=True
 
 include "config.pxi"
 include "zpool_status.pxi"
@@ -40,7 +40,7 @@ cdef extern from 'libzutil.h' nogil:
             int lpc_open_access_error
             int lpc_desc_active
             char lpc_desc[1024]
-            pool_config_ops_t *lpc_ops
+            const pool_config_ops_t *lpc_ops
             void *lpc_lib_handle
         enum:
             LPC_SUCCESS = 0
@@ -159,7 +159,6 @@ cdef extern from "libzfs.h" nogil:
         EZFS_DIFF
         EZFS_DIFFDATA
         EZFS_POOLREADONLY
-        EZFS_SCRUB_PAUSED
         EZFS_ACTIVE_POOL
         EZFS_CRYPTOFAILED
         EZFS_NO_PENDING
@@ -473,10 +472,7 @@ cdef extern from "libzfs.h" nogil:
     extern int zfs_send(zfs_handle_t *, const char *, const char *,
         sendflags_t *, int, snapfilter_cb_t, void *, nvpair.nvlist_t **) nogil
 
-    IF HAVE_ZFS_SEND_ONE == 4:
-        extern int zfs_send_one(zfs_handle_t *, const char *, int, int) nogil
-    ELSE:
-        extern int zfs_send_one(zfs_handle_t *, const char *, int, sendflags_t*, const char*) nogil
+    extern int zfs_send_one(zfs_handle_t *, const char *, int, sendflags_t *, const char *) nogil
 
     extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)
     extern nvpair.nvlist_t *zfs_send_resume_token_to_nvlist(libzfs_handle_t *hdl, const char *token)

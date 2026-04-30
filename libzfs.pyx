@@ -1,5 +1,5 @@
 # encoding: utf-8
-# cython: language_level=3, c_string_type=unicode, c_string_encoding=default
+# cython: language_level=3, c_string_type=unicode, c_string_encoding=default, legacy_implicit_noexcept=True
 
 import os
 import stat
@@ -633,7 +633,7 @@ cdef class ZFS(object):
         iter.length += 1
 
     @staticmethod
-    cdef int __iterate_filesystems(libzfs.zfs_handle_t *zhp, int flags, libzfs.zfs_iter_f func, void *data) nogil:
+    cdef int __iterate_filesystems(libzfs.zfs_handle_t *zhp, int flags, libzfs.zfs_iter_f func, void *data) noexcept nogil:
         IF HAVE_ZFS_ITER_FILESYSTEMS == 4:
             return libzfs.zfs_iter_filesystems(zhp, flags, func, data)
         ELSE:
@@ -641,7 +641,7 @@ cdef class ZFS(object):
             return libzfs.zfs_iter_filesystems(zhp, func, data)
 
     @staticmethod
-    cdef int __iterate_snapspec(libzfs.zfs_handle_t *zhp, int flags, const char *spec_orig, libzfs.zfs_iter_f func, void *arg) nogil:
+    cdef int __iterate_snapspec(libzfs.zfs_handle_t *zhp, int flags, const char *spec_orig, libzfs.zfs_iter_f func, void *arg) noexcept nogil:
         IF HAVE_ZFS_ITER_SNAPSPEC == 5:
             return libzfs.zfs_iter_snapspec(zhp, flags, spec_orig, func, arg)
         ELSE:
@@ -649,7 +649,7 @@ cdef class ZFS(object):
             return libzfs.zfs_iter_snapspec(zhp, spec_orig, func, arg)
 
     @staticmethod
-    cdef int __iterate_dependents(libzfs.zfs_handle_t *zhp, int flags, boolean_t allowrecursion, libzfs.zfs_iter_f func, void *data) nogil:
+    cdef int __iterate_dependents(libzfs.zfs_handle_t *zhp, int flags, boolean_t allowrecursion, libzfs.zfs_iter_f func, void *data) noexcept nogil:
         IF HAVE_ZFS_ITER_DEPENDENTS == 5:
             return libzfs.zfs_iter_dependents(zhp, flags, allowrecursion, func, data)
         ELSE:
@@ -657,7 +657,7 @@ cdef class ZFS(object):
             return libzfs.zfs_iter_dependents(zhp, allowrecursion, func, data)
 
     @staticmethod
-    cdef int __iterate_bookmarks(libzfs.zfs_handle_t *zhp, int flags, libzfs.zfs_iter_f func, void *data) nogil:
+    cdef int __iterate_bookmarks(libzfs.zfs_handle_t *zhp, int flags, libzfs.zfs_iter_f func, void *data) noexcept nogil:
         IF HAVE_ZFS_ITER_BOOKMARKS == 4:
             return libzfs.zfs_iter_bookmarks(zhp, flags, func, data)
         ELSE:
@@ -961,7 +961,7 @@ cdef class ZFS(object):
 
 
     IF HAVE_ZFS_FOREACH_MOUNTPOINT:
-        cdef int zpool_enable_datasets(self, str name, int enable_shares) nogil:
+        cdef int zpool_enable_datasets(self, str name, int enable_shares) noexcept nogil:
             cdef libzfs.zfs_handle_t* handle
             cdef const char *c_name
             cdef libzfs.get_all_cb_t cb
@@ -2448,7 +2448,7 @@ cdef class ZFSVdev(object):
 
             if value.startswith(zfs.VDEV_TYPE_RAIDZ):
                 self.nvlist['type'] = zfs.VDEV_TYPE_RAIDZ
-                self.nvlist['nparity'] = long(value[-1])
+                self.nvlist['nparity'] = <long>value[-1]
 
     property guid:
         def __get__(self):
@@ -4220,7 +4220,7 @@ cdef class ZFSDataset(ZFSResource):
             self.properties['keylocation'].value = 'prompt'
 
     def destroy_snapshot(self, name, defer=True):
-        cdef const char *c_name = name
+        cdef char *c_name = name
         cdef int ret
         cdef int defer_deletion = defer
 

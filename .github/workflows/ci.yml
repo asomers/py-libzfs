@@ -9,35 +9,42 @@ jobs:
   debian:
     runs-on: ubuntu-latest
     container:
-      image: ixsystems/zfs:latest
+      image: debian:trixie
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      - name: Install Dependencies
+        uses: actions/checkout@v4
+
+      - name: Enable contrib repository
+        run: |
+          if [ -f /etc/apt/sources.list.d/debian.sources ]; then
+            sed -i 's/^Components: main$/Components: main contrib/' /etc/apt/sources.list.d/debian.sources
+          else
+            sed -i 's/ trixie main$/ trixie main contrib/' /etc/apt/sources.list
+          fi
+
+      - name: Install dependencies
         run: |
           apt update
-          apt install -y debhelper-compat dh-python cython3 python3-all-dev python3-setuptools devscripts
+          apt install -y build-essential debhelper-compat dh-python cython3 python3-all-dev python3-setuptools libzfslinux-dev
+
       - name: Build deb package
-        run: >
-          dpkg-buildpackage
-          -B
-          --no-sign
-          -jauto
+        run: dpkg-buildpackage -B --no-sign -jauto
 
       - name: Create artifacts dir
-        run: mkdir artifacts
         if: success()
+        run: mkdir artifacts
 
       - name: Move artifacts
+        if: success()
         run: mv ../*.deb artifacts
-        if: success()
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
         with:
-          name: py-libzfs
+          name: py-libzfs-debian-trixie
           path: artifacts
-        if: success()
-
+  
   freebsd:
     runs-on: ubuntu-latest
     strategy:
@@ -61,7 +68,7 @@ jobs:
       - name: Install dependencies
         shell: freebsd {0}
         run: |
-          pkg install -y python3 py311-setuptools py311-cython0 git
+          pkg install -y python3 py311-setuptools py311-cython git
       - name: Fetch FreeBSD source
         shell: freebsd {0}
         run: |
