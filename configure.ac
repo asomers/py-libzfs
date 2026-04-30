@@ -578,28 +578,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 )
 
 
-dnl Checking attribute name for verbose in sendflags_t struct
-
-AC_MSG_NOTICE([Checking attribute name for verbose in sendflags_t struct])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			sendflags_t t;
-			t.verbosity = 1 /* ; */
-		]
-	)],[
-		AC_SUBST(HAVE_SENDFLAGS_T_VERBOSITY, 1)
-		AC_SUBST(SENDFLAGS_T_VERBOSITY, "int verbosity")
-		AC_MSG_NOTICE([Attribute named as verbosity in sendflags_t struct])
-	],[
-		AC_SUBST(HAVE_SENDFLAGS_T_VERBOSITY, 0)
-		AC_SUBST(SENDFLAGS_T_VERBOSITY, "int verbose")
-		AC_MSG_NOTICE([Attribute named as verbose in sendflags_t struct])
-	]
-)
-
-
 dnl Checking for dedup member in sendflags_t struct
 
 AC_MSG_NOTICE([Checking for dedup member in sendflags_t struct])
