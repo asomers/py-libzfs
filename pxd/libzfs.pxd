@@ -17,8 +17,7 @@ cdef extern from "libzfs_core.h" nogil:
     enum lzc_send_flags:
         LZC_SEND_FLAG_EMBED_DATA
     extern int lzc_bookmark(nvpair.nvlist_t *bookmarks, nvpair.nvlist_t **errlist)
-    IF HAVE_LZC_SYNC:
-        extern int lzc_sync(const char *, nvpair.nvlist_t *innvl, nvpair.nvlist_t **outnvl)
+    extern int lzc_sync(const char *, nvpair.nvlist_t *innvl, nvpair.nvlist_t **outnvl)
     IF HAVE_LZC_WAIT:
         extern int lzc_wait(const char *, zfs.zpool_wait_activity_t, boolean_t *)
 

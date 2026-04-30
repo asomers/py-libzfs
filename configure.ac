@@ -587,22 +587,6 @@ AC_CHECK_HEADERS([libzfs_core.h], [], [AC_MSG_ERROR(A working libzfs_core header
 ])
 
 
-dnl Checking lzc_sync existence
-
-AC_MSG_NOTICE([Verifying lzc_sync existence])
-
-exists=0
-AC_LINK_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs_core.h>],
-		[
-			lzc_sync(NULL, NULL, NULL) /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_LZC_SYNC, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_LZC_SYNC, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
-
 dnl Checking lzc_wait existence
 
 AC_MSG_NOTICE([Verifying lzc_wait existence])
