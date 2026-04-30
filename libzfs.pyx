@@ -1649,9 +1649,8 @@ cdef class ZFS(object):
         if nomount:
             flags.nomount = True
 
-        IF HAVE_RECVFLAGS_T_RESUMABLE:
-            if resumable:
-                flags.resumable = True
+        if resumable:
+            flags.resumable = True
 
         if props:
             props_nvl = NVList(otherdict=props)

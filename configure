@@ -689,8 +689,6 @@ SENDFLAGS_T_VERBOSITY
 HAVE_SENDFLAGS_T_VERBOSITY
 HAVE_SENDFLAGS_T_TYPEDEF
 HAVE_POOL_SCAN_STAT_PSS_SKIPPED
-HAVE_RECVFLAGS_T_RESUMABLE
-HAVE_ZPOOL_MAXNAMELEN
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
 HAVE_EZFS_SHAREFAILED
@@ -4755,88 +4753,6 @@ then :
 printf '%s\n' "$as_me: OK" >&6;}
 else case e in #(
   e) HAVE_EZFS_ASHIFT_MISMATCH=0
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for ZPOOL_MAXNAMELEN defined in libzfs.h" >&5
-printf %s "checking for ZPOOL_MAXNAMELEN defined in libzfs.h... " >&6; }
-if test ${ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e) cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-  #ifdef ZPOOL_MAXNAMELEN
-  int ok;
-  (void)ok;
-  #else
-  choke me
-  #endif
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h=yes
-else case e in #(
-  e) ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h=no ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
-esac
-fi
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h" >&5
-printf '%s\n' "$ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h" >&6; }
-if test $ac_cv_defined_ZPOOL_MAXNAMELEN_libzfs_h != "no"
-then :
-  HAVE_ZPOOL_MAXNAMELEN=1
-
-else case e in #(
-  e) HAVE_ZPOOL_MAXNAMELEN=0
- ;;
-esac
-fi
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking for resumable member in recvflags_t struct" >&5
-printf '%s\n' "$as_me: Checking for resumable member in recvflags_t struct" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			recvflags_t t;
-			t.resumable = 1 /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_RECVFLAGS_T_RESUMABLE=1
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-else case e in #(
-  e) HAVE_RECVFLAGS_T_RESUMABLE=0
  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
 printf '%s\n' "$as_me: NOT FOUND" >&6;}
  ;;

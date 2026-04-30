@@ -64,11 +64,6 @@ cdef extern from "libzfs.h" nogil:
         MAXNAMELEN
         MAXPATHLEN
 
-    IF HAVE_ZPOOL_MAXNAMELEN:
-        cdef enum:
-            ZFS_MAXNAMELEN
-            ZPOOL_MAXNAMELEN
-
     cdef enum:
         EZFS_SCRUB_PAUSED
     IF HAVE_EZFS_ERRORSCRUBBING:

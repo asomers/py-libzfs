@@ -562,26 +562,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	[AC_SUBST(HAVE_EZFS_ASHIFT_MISMATCH, 0) AC_MSG_NOTICE([NOT FOUND])]
 )
 
-dnl Checking ZPOOL_MAXNAMELEN
-
-AX_CHECK_DEFINE([libzfs.h], [ZPOOL_MAXNAMELEN], [AC_SUBST(HAVE_ZPOOL_MAXNAMELEN, 1)], [AC_SUBST(HAVE_ZPOOL_MAXNAMELEN, 0)])
-
-
-dnl Checking for resumable member in recvflags_t struct
-
-AC_MSG_NOTICE([Checking for resumable member in recvflags_t struct])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			recvflags_t t;
-			t.resumable = 1 /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_RECVFLAGS_T_RESUMABLE, 1) AC_MSG_NOTICE([OK])],
-	[AC_SUBST(HAVE_RECVFLAGS_T_RESUMABLE, 0) AC_MSG_NOTICE([NOT FOUND])]
-)
-
 dnl Checking for pss_skipped in struct pool_scan_stat
 
 AC_MSG_NOTICE([Checking for pss_skipped member in pool_scan_stat struct])
