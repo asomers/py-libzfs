@@ -478,10 +478,7 @@ cdef extern from "libzfs.h" nogil:
         int nounmount
         int forceunmount
 
-    IF HAVE_ZFS_RENAME == 4:
-        extern int zfs_rename(zfs_handle_t *, const char *, const char *, renameflags_t flags)
-    ELSE:
-        extern int zfs_rename(zfs_handle_t *, const char *, renameflags_t)
+    extern int zfs_rename(zfs_handle_t *, const char *, renameflags_t)
 
     ctypedef int (*snapfilter_cb_t)(zfs_handle_t *, void *)
 

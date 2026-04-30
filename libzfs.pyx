@@ -3625,10 +3625,7 @@ cdef class ZFSObject(object):
         flags.forceunmount = forceunmount
 
         with nogil:
-            IF HAVE_ZFS_RENAME == 4:
-                ret = libzfs.zfs_rename(self.handle, NULL, c_new_name, flags)
-            ELSE:
-                ret = libzfs.zfs_rename(self.handle, c_new_name, flags)
+            ret = libzfs.zfs_rename(self.handle, c_new_name, flags)
 
         history = ['zfs rename', '-f' if forceunmount else '', '-u' if nounmount else '', self.name]
 

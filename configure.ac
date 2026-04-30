@@ -562,22 +562,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	[AC_SUBST(HAVE_EZFS_ASHIFT_MISMATCH, 0) AC_MSG_NOTICE([NOT FOUND])]
 )
 
-dnl Checking zfs_rename function signature
-
-AC_MSG_NOTICE([Checking function signature of zfs_rename in libzfs.h])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			renameflags_t flag;
-			zfs_rename(NULL, NULL, NULL, flag);
-		]
-	)],
-	[AC_SUBST(HAVE_ZFS_RENAME, 4) AC_MSG_NOTICE([4 PARAMS])],
-	[AC_SUBST(HAVE_ZFS_RENAME, 3) AC_MSG_NOTICE([3 PARAMS])]
-)
-
-
 dnl Checking ZPOOL_MAXNAMELEN
 
 AX_CHECK_DEFINE([libzfs.h], [ZPOOL_MAXNAMELEN], [AC_SUBST(HAVE_ZPOOL_MAXNAMELEN, 1)], [AC_SUBST(HAVE_ZPOOL_MAXNAMELEN, 0)])
