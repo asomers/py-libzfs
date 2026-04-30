@@ -4,8 +4,7 @@
 include "config.pxi"
 include "zpool_status.pxi"
 
-IF HAVE_SENDFLAGS_T_TYPEDEF:
-    include "sendflags.pxi"
+include "sendflags.pxi"
 
 cimport nvpair
 cimport zfs
@@ -13,52 +12,44 @@ from types cimport *
 
 
 cdef extern from "libzfs_core.h" nogil:
-    IF HAVE_LZC_SEND_SPACE == 4:
-        extern int lzc_send_space(const char *, const char *, int, uint64_t *)
-    ELSE:
-        extern int lzc_send_space(const char *, const char *, uint64_t *)
+    extern int lzc_send_space(const char *, const char *, int, uint64_t *)
 
     enum lzc_send_flags:
         LZC_SEND_FLAG_EMBED_DATA
-    IF HAVE_LZC_BOOKMARK:
-        extern int lzc_bookmark(nvpair.nvlist_t *bookmarks, nvpair.nvlist_t **errlist)
-    IF HAVE_LZC_SYNC:
-        extern int lzc_sync(const char *, nvpair.nvlist_t *innvl, nvpair.nvlist_t **outnvl)
-    IF HAVE_LZC_WAIT:
-        extern int lzc_wait(const char *, zfs.zpool_wait_activity_t, boolean_t *)
+    extern int lzc_bookmark(nvpair.nvlist_t *bookmarks, nvpair.nvlist_t **errlist)
+    extern int lzc_sync(const char *, nvpair.nvlist_t *innvl, nvpair.nvlist_t **outnvl)
+    extern int lzc_wait(const char *, zfs.zpool_wait_activity_t, boolean_t *)
 
 
-IF HAVE_LIBZUTIL_HEADER:
-    cdef extern from 'libzutil.h' nogil:
+cdef extern from 'libzutil.h' nogil:
 
-        ctypedef struct pool_config_ops_t:
-            pass
+    ctypedef struct pool_config_ops_t:
+        pass
 
-        extern const pool_config_ops_t libzfs_config_ops;
-        extern boolean_t zfs_dev_is_whole_disk(const char *)
+    extern const pool_config_ops_t libzfs_config_ops;
+    extern boolean_t zfs_dev_is_whole_disk(const char *)
 
-        IF HAVE_ZPOOL_READ_LABEL_LIBZUTIL and HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-            extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
+    extern int zpool_read_label(int, nvpair.nvlist_t **, int *)
 
-        IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
-            extern nvpair.nvlist_t *zpool_search_import(void *, importargs_t *, const pool_config_ops_t *)
-        ELIF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 2:
-            ctypedef struct libpc_handle_t:
-                int lpc_error
-                int lpc_printerr
-                int lpc_open_access_error
-                int lpc_desc_active
-                char lpc_desc[1024]
-                pool_config_ops_t *lpc_ops
-                void *lpc_lib_handle
-            enum:
-                LPC_SUCCESS = 0
-                LPC_BADCACHE = 2000
-                LPC_BADPATH
-                LPC_NOMEM
-                LPC_EACCESS
-                LPC_UNKNOWN
-            extern nvpair.nvlist_t *zpool_search_import(libpc_handle_t *, importargs_t *)
+    IF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 3:
+        extern nvpair.nvlist_t *zpool_search_import(void *, importargs_t *, const pool_config_ops_t *)
+    ELIF HAVE_ZPOOL_SEARCH_IMPORT_LIBZUTIL and HAVE_ZPOOL_SEARCH_IMPORT_PARAMS == 2:
+        ctypedef struct libpc_handle_t:
+            int lpc_error
+            int lpc_printerr
+            int lpc_open_access_error
+            int lpc_desc_active
+            char lpc_desc[1024]
+            pool_config_ops_t *lpc_ops
+            void *lpc_lib_handle
+        enum:
+            LPC_SUCCESS = 0
+            LPC_BADCACHE = 2000
+            LPC_BADPATH
+            LPC_NOMEM
+            LPC_EACCESS
+            LPC_UNKNOWN
+        extern nvpair.nvlist_t *zpool_search_import(libpc_handle_t *, importargs_t *)
 
 
 cdef extern from "libzfs.h" nogil:
@@ -66,14 +57,8 @@ cdef extern from "libzfs.h" nogil:
         MAXNAMELEN
         MAXPATHLEN
 
-    IF HAVE_ZFS_MAXNAMELEN or HAVE_ZPOOL_MAXNAMELEN:
-        cdef enum:
-            ZFS_MAXNAMELEN
-            ZPOOL_MAXNAMELEN
-
-    IF HAVE_EZFS_SCRUB_PAUSED:
-        cdef enum:
-            EZFS_SCRUB_PAUSED
+    cdef enum:
+        EZFS_SCRUB_PAUSED
     IF HAVE_EZFS_ERRORSCRUBBING:
         cdef enum:
             EZFS_ERRORSCRUBBING
@@ -246,10 +231,7 @@ cdef extern from "libzfs.h" nogil:
     ELSE:
         extern int zpool_add(zpool_handle_t *, nvpair.nvlist_t *)
 
-    IF HAVE_ZPOOL_SCAN == 3:
-        extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t, zfs.pool_scrub_cmd_t)
-    ELSE:
-        extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t)
+    extern int zpool_scan(zpool_handle_t *, zfs.pool_scan_func_t, zfs.pool_scrub_cmd_t)
 
     extern int zpool_clear(zpool_handle_t *, const char *, nvpair.nvlist_t *)
     extern int zpool_reguid(zpool_handle_t *)
@@ -293,10 +275,7 @@ cdef extern from "libzfs.h" nogil:
     IF HAVE_ZPOOL_EVENTS_NEXT:
         extern int zpool_events_next(libzfs_handle_t *, nvpair.nvlist_t **, int *, unsigned, int);
 
-    IF HAVE_ZPOOL_GET_STATUS == 3 and HAVE_ZPOOL_ERRATA_T_ENUM:
-        extern zpool_status_t zpool_get_status(zpool_handle_t *, const char **, zfs.zpool_errata_t *)
-    ELSE:
-        extern zpool_status_t zpool_get_status(zpool_handle_t *, const char **)
+    extern zpool_status_t zpool_get_status(zpool_handle_t *, const char **, zfs.zpool_errata_t *)
 
     extern zpool_status_t zpool_import_status(nvpair.nvlist_t *, char **)
     extern void zpool_dump_ddt(const zfs.ddt_stat_t *dds, const zfs.ddt_histogram_t *ddh)
@@ -482,26 +461,12 @@ cdef extern from "libzfs.h" nogil:
         nvpair.nvlist_t *props)
     extern int zfs_rollback(zfs_handle_t *, zfs_handle_t *, int)
 
-    IF HAVE_RENAMEFLAGS_T:
-        IF HAVE_RENAMEFLAGS_T_RECURSE:
-            ctypedef struct renameflags_t:
-                int recurse
-                int nounmount
-                int forceunmount
-        ELSE:
-            ctypedef struct renameflags_t:
-                int recursive
-                int nounmount
-                int forceunmount
+    ctypedef struct renameflags_t:
+        int recursive
+        int nounmount
+        int forceunmount
 
-        IF HAVE_ZFS_RENAME == 4:
-            extern int zfs_rename(zfs_handle_t *, const char *, const char *, renameflags_t flags)
-        ELSE:
-            extern int zfs_rename(zfs_handle_t *, const char *, renameflags_t)
-
-    ELSE:
-
-        extern int zfs_rename(zfs_handle_t *, const char *, boolean_t, boolean_t)
+    extern int zfs_rename(zfs_handle_t *, const char *, renameflags_t)
 
     ctypedef int (*snapfilter_cb_t)(zfs_handle_t *, void *)
 
@@ -511,11 +476,10 @@ cdef extern from "libzfs.h" nogil:
     IF HAVE_ZFS_SEND_ONE == 4:
         extern int zfs_send_one(zfs_handle_t *, const char *, int, int) nogil
     ELSE:
-        extern int zfs_send_one(zfs_handle_t *, const char *, int) nogil
+        extern int zfs_send_one(zfs_handle_t *, const char *, int, sendflags_t*, const char*) nogil
 
-    IF HAVE_ZFS_SEND_RESUME or HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-        extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)
-        extern nvpair.nvlist_t *zfs_send_resume_token_to_nvlist(libzfs_handle_t *hdl, const char *token)
+    extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)
+    extern nvpair.nvlist_t *zfs_send_resume_token_to_nvlist(libzfs_handle_t *hdl, const char *token)
 
     extern int zfs_promote(zfs_handle_t *)
     extern int zfs_hold(zfs_handle_t *, const char *, const char *,
@@ -554,15 +518,8 @@ cdef extern from "libzfs.h" nogil:
         ZFS_DIFF_TIMESTAMP = 0x2,
         ZFS_DIFF_CLASSIFY = 0x4
 
-    IF HAVE_ZFS_RECEIVE == 7:
-        extern int zfs_receive(libzfs_handle_t *, const char *, recvflags_t *,
-            int, nvpair.nvlist_t *, nvpair.nvlist_t *, void *) # XXX: last argument should be avl_tree_t *
-    ELIF HAVE_ZFS_RECEIVE == 6:
-        extern int zfs_receive(libzfs_handle_t *, const char *, nvpair.nvlist_t *,
-            recvflags_t *, int, void *) # XXX: last argument should be avl_tree_t *
-    ELSE:
-        extern int zfs_receive(libzfs_handle_t *, const char *, nvpair.nvlist_t *,
-            recvflags_t *, int) # XXX: last argument should be avl_tree_t *
+    extern int zfs_receive(libzfs_handle_t *, const char *, nvpair.nvlist_t *,
+        recvflags_t *, int, void *) # XXX: last argument should be avl_tree_t *
 
     extern int zfs_show_diffs(zfs_handle_t *, int, const char *, const char *,
         int)
@@ -621,11 +578,7 @@ cdef extern from "libzfs.h" nogil:
     extern int zpool_in_use(libzfs_handle_t *, int, zfs.pool_state_t *, char **,
         int *)
 
-    IF HAVE_ZPOOL_READ_LABEL_LIBZFS:
-        IF HAVE_ZPOOL_READ_LABEL_PARAMS == 2:
-            extern int zpool_read_label(int, nvpair.nvlist_t **)
-        ELIF HAVE_ZPOOL_READ_LABEL_PARAMS == 3:
-            extern int zpool_read_label(int, nvpair.nvlist_t **, int*)
+    extern int zpool_read_label(int, nvpair.nvlist_t **, int*)
 
     extern int zpool_clear_label(int)
     extern int zvol_check_dump_config(char *)
@@ -666,19 +619,13 @@ cdef extern from "libzfs.h" nogil:
 
         extern int zfs_ioctl(libzfs_handle_t *, int, zfs_cmd *)
 
-    IF HAVE_ZFS_ENCRYPTION:
-        extern int zfs_crypto_get_encryption_root(zfs_handle_t *, boolean_t *, char *)
-        extern int zfs_crypto_create(
-            libzfs_handle_t *, char *, nvpair.nvlist_t *, nvpair.nvlist_t *,
-            boolean_t stdin_available, uint8_t **, uint_t *
-        )
-        extern int zfs_crypto_clone_check(libzfs_handle_t *, zfs_handle_t *, char *, nvpair.nvlist_t *)
-        extern int zfs_crypto_attempt_load_keys(libzfs_handle_t *, char *)
-        extern int zfs_crypto_load_key(zfs_handle_t *, boolean_t, char *)
-        extern int zfs_crypto_unload_key(zfs_handle_t *)
-        extern int zfs_crypto_rewrap(zfs_handle_t *, nvpair.nvlist_t *, boolean_t)
-
-    IF HAVE_THREAD_INIT_FINI:
-        cdef extern from 'sys/zfs_context_userland.h' nogil:
-            extern void thread_init()
-            extern void thread_fini()
+    extern int zfs_crypto_get_encryption_root(zfs_handle_t *, boolean_t *, char *)
+    extern int zfs_crypto_create(
+        libzfs_handle_t *, char *, nvpair.nvlist_t *, nvpair.nvlist_t *,
+        boolean_t stdin_available, uint8_t **, uint_t *
+    )
+    extern int zfs_crypto_clone_check(libzfs_handle_t *, zfs_handle_t *, char *, nvpair.nvlist_t *)
+    extern int zfs_crypto_attempt_load_keys(libzfs_handle_t *, char *)
+    extern int zfs_crypto_load_key(zfs_handle_t *, boolean_t, char *)
+    extern int zfs_crypto_unload_key(zfs_handle_t *)
+    extern int zfs_crypto_rewrap(zfs_handle_t *, nvpair.nvlist_t *, boolean_t)

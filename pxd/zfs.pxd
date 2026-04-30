@@ -66,13 +66,10 @@ cdef extern from "sys/fs/zfs.h" nogil:
     const char* ZPOOL_CONFIG_DRAID_NSPARES
     const char* ZPOOL_CONFIG_DRAID_NGROUPS
     const char* VDEV_TYPE_DRAID
-
-    IF HAVE_ZPOOL_CONFIG_ALLOCATION_BIAS:
-        const char* ZPOOL_CONFIG_ALLOCATION_BIAS
-        const char* VDEV_ALLOC_BIAS_LOG
-        const char* VDEV_ALLOC_BIAS_SPECIAL
-        const char* VDEV_ALLOC_BIAS_DEDUP
-
+    const char* ZPOOL_CONFIG_ALLOCATION_BIAS
+    const char* VDEV_ALLOC_BIAS_LOG
+    const char* VDEV_ALLOC_BIAS_SPECIAL
+    const char* VDEV_ALLOC_BIAS_DEDUP
     const char* VDEV_TYPE_ROOT
     const char* VDEV_TYPE_MIRROR
     const char* VDEV_TYPE_REPLACING
@@ -88,32 +85,26 @@ cdef extern from "sys/fs/zfs.h" nogil:
 
     const char* ZFS_DEV
 
-    IF HAVE_ZPOOL_LOAD_POLICY_T:
-        # Pool load policy parameter
-        const char* ZPOOL_LOAD_POLICY
-        const char* ZPOOL_LOAD_REWIND_POLICY
-        const char* ZPOOL_LOAD_REQUEST_TXG
-        const char* ZPOOL_LOAD_META_THRESH
-        const char* ZPOOL_LOAD_DATA_THRESH
+    # Pool load policy parameter
+    const char* ZPOOL_LOAD_POLICY
+    const char* ZPOOL_LOAD_REWIND_POLICY
+    const char* ZPOOL_LOAD_REQUEST_TXG
+    const char* ZPOOL_LOAD_META_THRESH
+    const char* ZPOOL_LOAD_DATA_THRESH
 
-    IF HAVE_ZPOOL_REWIND_POLICY_T:
-        const char *ZPOOL_REWIND_REQUEST
+    ctypedef enum zpool_errata_t:
+        pass
 
-    IF HAVE_ZPOOL_ERRATA_T_ENUM:
-        ctypedef enum zpool_errata_t:
-            pass
-
-    IF HAVE_LZC_WAIT:
-        ctypedef enum zpool_wait_activity_t:
-            ZPOOL_WAIT_CKPT_DISCARD,
-            ZPOOL_WAIT_FREE,
-            ZPOOL_WAIT_INITIALIZE,
-            ZPOOL_WAIT_REPLACE,
-            ZPOOL_WAIT_REMOVE,
-            ZPOOL_WAIT_RESILVER,
-            ZPOOL_WAIT_SCRUB,
-            ZPOOL_WAIT_TRIM,
-            ZPOOL_WAIT_NUM_ACTIVITIES
+    ctypedef enum zpool_wait_activity_t:
+        ZPOOL_WAIT_CKPT_DISCARD,
+        ZPOOL_WAIT_FREE,
+        ZPOOL_WAIT_INITIALIZE,
+        ZPOOL_WAIT_REPLACE,
+        ZPOOL_WAIT_REMOVE,
+        ZPOOL_WAIT_RESILVER,
+        ZPOOL_WAIT_SCRUB,
+        ZPOOL_WAIT_TRIM,
+        ZPOOL_WAIT_NUM_ACTIVITIES
 
     ctypedef enum zpool_prefetch_type_t:
         ZPOOL_PREFETCH_NONE
@@ -142,9 +133,8 @@ cdef extern from "sys/fs/zfs.h" nogil:
         ZFS_IMPORT_ONLY
         ZFS_ONLINE_EXPAND
 
-    IF HAVE_ZFS_MAX_DATASET_NAME_LEN:
-        enum:
-            ZFS_MAX_DATASET_NAME_LEN
+    enum:
+        ZFS_MAX_DATASET_NAME_LEN
 
     ctypedef enum zfs_ioc_t:
         ZFS_IOC_FIRST
@@ -249,46 +239,19 @@ cdef extern from "sys/fs/zfs.h" nogil:
         ZPROP_SRC_RECEIVED = 0x20
         ZPROP_SRC_ALL = 0x3f
 
-    IF HAVE_ZFS_ENCRYPTION:
-        ctypedef enum zfs_keystatus_t:
-            ZFS_KEYSTATUS_NONE
-            ZFS_KEYSTATUS_UNAVAILABLE
-            ZFS_KEYSTATUS_AVAILABLE
+    ctypedef enum zfs_keystatus_t:
+        ZFS_KEYSTATUS_NONE
+        ZFS_KEYSTATUS_UNAVAILABLE
+        ZFS_KEYSTATUS_AVAILABLE
 
-    IF HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-        IF HAVE_ZFS_ENCRYPTION:
-            ctypedef enum zfs_prop_t:
-                ZPROP_CONT = -2
-                ZPROP_INVAL	= -1
-                ZFS_PROP_CREATETXG
-                ZFS_PROP_CANMOUNT
-                ZFS_PROP_KEYSTATUS
-                ZFS_PROP_RECEIVE_RESUME_TOKEN
-                ZFS_PROP_INCONSISTENT
-        ELSE:
-            ctypedef enum zfs_prop_t:
-                ZPROP_CONT = -2
-                ZPROP_INVAL	= -1
-                ZFS_PROP_CREATETXG
-                ZFS_PROP_CANMOUNT
-                ZFS_PROP_RECEIVE_RESUME_TOKEN
-                ZFS_PROP_INCONSISTENT
-    ELSE:
-        IF HAVE_ZFS_ENCRYPTION:
-            ctypedef enum zfs_prop_t:
-                ZPROP_CONT = -2
-                ZPROP_INVAL	= -1
-                ZFS_PROP_CREATETXG
-                ZFS_PROP_CANMOUNT
-                ZFS_PROP_KEYSTATUS
-                ZFS_PROP_INCONSISTENT
-        ELSE:
-            ctypedef enum zfs_prop_t:
-                ZPROP_CONT = -2
-                ZPROP_INVAL	= -1
-                ZFS_PROP_CREATETXG
-                ZFS_PROP_CANMOUNT
-                ZFS_PROP_INCONSISTENT
+    ctypedef enum zfs_prop_t:
+        ZPROP_CONT = -2
+        ZPROP_INVAL	= -1
+        ZFS_PROP_CREATETXG
+        ZFS_PROP_CANMOUNT
+        ZFS_PROP_KEYSTATUS
+        ZFS_PROP_RECEIVE_RESUME_TOKEN
+        ZFS_PROP_INCONSISTENT
     
     ctypedef enum zprop_errflags_t:
         ZPROP_ERR_NOCLEAR = 0x1
@@ -308,12 +271,7 @@ cdef extern from "sys/fs/zfs.h" nogil:
     int zfs_prop_index_to_string(int, uint64_t, const char **)
     int zfs_prop_string_to_index(int, const char *, uint64_t *)
     uint64_t zfs_prop_random_value(int, uint64_t seed)
-
-    IF HAVE_ZFS_PROP_VALID_FOR_TYPE == 3:
-        boolean_t zfs_prop_valid_for_type(int, zfs_type_t, boolean_t)
-    ELSE:
-        boolean_t zfs_prop_valid_for_type(int, zfs_type_t)
-
+    boolean_t zfs_prop_valid_for_type(int, zfs_type_t, boolean_t)
     int zpool_name_to_prop(const char *)
     const char *zpool_prop_to_name(int)
     const char *zpool_prop_default_string(int)
@@ -437,43 +395,24 @@ cdef extern from "sys/fs/zfs.h" nogil:
         VDEV_STATE_DEGRADED
         VDEV_STATE_HEALTHY
 
-    IF HAVE_VDEV_AUX_ASHIFT_TOO_BIG:
-        ctypedef enum vdev_aux_t:
-            VDEV_AUX_NONE
-            VDEV_AUX_OPEN_FAILED
-            VDEV_AUX_CORRUPT_DATA
-            VDEV_AUX_NO_REPLICAS
-            VDEV_AUX_BAD_GUID_SUM
-            VDEV_AUX_TOO_SMALL
-            VDEV_AUX_BAD_LABEL
-            VDEV_AUX_VERSION_NEWER
-            VDEV_AUX_VERSION_OLDER
-            VDEV_AUX_UNSUP_FEAT
-            VDEV_AUX_SPARED
-            VDEV_AUX_ERR_EXCEEDED
-            VDEV_AUX_IO_FAILURE
-            VDEV_AUX_BAD_LOG
-            VDEV_AUX_EXTERNAL
-            VDEV_AUX_SPLIT_POOL
-            VDEV_AUX_ASHIFT_TOO_BIG
-    ELSE:
-        ctypedef enum vdev_aux_t:
-            VDEV_AUX_NONE
-            VDEV_AUX_OPEN_FAILED
-            VDEV_AUX_CORRUPT_DATA
-            VDEV_AUX_NO_REPLICAS
-            VDEV_AUX_BAD_GUID_SUM
-            VDEV_AUX_TOO_SMALL
-            VDEV_AUX_BAD_LABEL
-            VDEV_AUX_VERSION_NEWER
-            VDEV_AUX_VERSION_OLDER
-            VDEV_AUX_UNSUP_FEAT
-            VDEV_AUX_SPARED
-            VDEV_AUX_ERR_EXCEEDED
-            VDEV_AUX_IO_FAILURE
-            VDEV_AUX_BAD_LOG
-            VDEV_AUX_EXTERNAL
-            VDEV_AUX_SPLIT_POOL
+    ctypedef enum vdev_aux_t:
+        VDEV_AUX_NONE
+        VDEV_AUX_OPEN_FAILED
+        VDEV_AUX_CORRUPT_DATA
+        VDEV_AUX_NO_REPLICAS
+        VDEV_AUX_BAD_GUID_SUM
+        VDEV_AUX_TOO_SMALL
+        VDEV_AUX_BAD_LABEL
+        VDEV_AUX_VERSION_NEWER
+        VDEV_AUX_VERSION_OLDER
+        VDEV_AUX_UNSUP_FEAT
+        VDEV_AUX_SPARED
+        VDEV_AUX_ERR_EXCEEDED
+        VDEV_AUX_IO_FAILURE
+        VDEV_AUX_BAD_LOG
+        VDEV_AUX_EXTERNAL
+        VDEV_AUX_SPLIT_POOL
+        VDEV_AUX_ASHIFT_TOO_BIG
         
     ctypedef enum pool_state_t:
         POOL_STATE_ACTIVE = 0
@@ -491,11 +430,10 @@ cdef extern from "sys/fs/zfs.h" nogil:
         POOL_SCAN_RESILVER
         POOL_SCAN_FUNCS
         
-    IF HAVE_POOL_SCRUB_CMD_T:
-        ctypedef enum pool_scrub_cmd_t:
-            POOL_SCRUB_NORMAL = 0
-            POOL_SCRUB_PAUSE
-            POOL_SCRUB_FLAGS_END
+    ctypedef enum pool_scrub_cmd_t:
+        POOL_SCRUB_NORMAL = 0
+        POOL_SCRUB_PAUSE
+        POOL_SCRUB_FLAGS_END
 
     ctypedef enum zio_type_t:
         ZIO_TYPE_NULL = 0
