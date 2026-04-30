@@ -3639,10 +3639,7 @@ cdef class ZFSObject(object):
         cdef int ret
 
         with nogil:
-            IF HAVE_LZC_SEND_SPACE == 4:
-                ret = libzfs.lzc_send_space(c_name, cfromname, 0, &space)
-            ELSE:
-                ret = libzfs.lzc_send_space(c_name, cfromname, &space)
+            ret = libzfs.lzc_send_space(c_name, cfromname, 0, &space)
 
         if ret != 0:
             raise ZFSException(Error.FAULT, "Cannot obtain space estimate: ")
@@ -4438,21 +4435,20 @@ cdef class ZFSSnapshot(ZFSResource):
 
         self.root.write_history('zfs rollback', '-f' if force else '', self.name)
 
-    IF HAVE_LZC_BOOKMARK:
-        def bookmark(self, name):
-            cdef NVList bookmarks
-            cdef nvpair.nvlist_t *c_bookmarks
-            cdef int ret
+    def bookmark(self, name):
+        cdef NVList bookmarks
+        cdef nvpair.nvlist_t *c_bookmarks
+        cdef int ret
 
-            bookmarks = NVList()
-            bookmarks['{0}#{1}'.format(self.parent.name, name)] = self.name
-            c_bookmarks = bookmarks.handle
+        bookmarks = NVList()
+        bookmarks['{0}#{1}'.format(self.parent.name, name)] = self.name
+        c_bookmarks = bookmarks.handle
 
-            with nogil:
-                ret = libzfs.lzc_bookmark(c_bookmarks, NULL)
+        with nogil:
+            ret = libzfs.lzc_bookmark(c_bookmarks, NULL)
 
-            if ret != 0:
-                raise OSError(ret, os.strerror(ret))
+        if ret != 0:
+            raise OSError(ret, os.strerror(ret))
 
     def clone(self, name, opts=None):
         cdef NVList copts = None

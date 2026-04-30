@@ -669,8 +669,6 @@ HAVE_SPA_FEATURE_ENCRYPTION
 HAVE_ZFEATURE_COMMON_HEADER
 HAVE_LZC_WAIT
 HAVE_LZC_SYNC
-HAVE_LZC_SEND_SPACE
-HAVE_LZC_BOOKMARK
 HAVE_POOL_SCAN_STAT_PSS_SKIPPED
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
@@ -4803,102 +4801,6 @@ fi
 
 done
 
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying lzc_bookmark existence" >&5
-printf '%s\n' "$as_me: Verifying lzc_bookmark existence" >&6;}
-
-exists=0
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs_core.h>
-int
-main (void)
-{
-
-			lzc_bookmark(NULL, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  exists=1
-else case e in #(
-  e) { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-
-
-if test "$exists" == 1
-then
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: OK" >&5
-printf '%s\n' "$as_me: OK" >&6;}
-	HAVE_LZC_BOOKMARK=1
-
-
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying existence and params of lzc_send_space" >&5
-printf '%s\n' "$as_me: Verifying existence and params of lzc_send_space" >&6;}
-
-	exists=0
-	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs_core.h>
-int
-main (void)
-{
-
-				lzc_send_space(NULL, NULL, LZC_SEND_FLAG_EMBED_DATA, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  exists=1
-else case e in #(
-  e) { printf '%s\n' "$as_me:${as_lineno-$LINENO}: NOT FOUND" >&5
-printf '%s\n' "$as_me: NOT FOUND" >&6;}
-	 ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-
-	if test "$exists" == 1
-	then
-
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: 4 params" >&5
-printf '%s\n' "$as_me: 4 params" >&6;}
-		HAVE_LZC_SEND_SPACE=4
-
-
-	else
-
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: 3 params" >&5
-printf '%s\n' "$as_me: 3 params" >&6;}
-		HAVE_LZC_SEND_SPACE=3
-
-	fi
-
-else
-
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: lzc_send_space function not found" >&5
-printf '%s\n' "$as_me: lzc_send_space function not found" >&6;}
-	HAVE_LZC_BOOKMARK=0
-
-	HAVE_LZC_SEND_SPACE=0
-
-
-fi
 
 
 { printf '%s\n' "$as_me:${as_lineno-$LINENO}: Verifying lzc_sync existence" >&5
