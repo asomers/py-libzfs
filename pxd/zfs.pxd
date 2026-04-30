@@ -245,23 +245,14 @@ cdef extern from "sys/fs/zfs.h" nogil:
         ZFS_KEYSTATUS_UNAVAILABLE
         ZFS_KEYSTATUS_AVAILABLE
 
-    IF HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-        ctypedef enum zfs_prop_t:
-            ZPROP_CONT = -2
-            ZPROP_INVAL	= -1
-            ZFS_PROP_CREATETXG
-            ZFS_PROP_CANMOUNT
-            ZFS_PROP_KEYSTATUS
-            ZFS_PROP_RECEIVE_RESUME_TOKEN
-            ZFS_PROP_INCONSISTENT
-    ELSE:
-        ctypedef enum zfs_prop_t:
-            ZPROP_CONT = -2
-            ZPROP_INVAL	= -1
-            ZFS_PROP_CREATETXG
-            ZFS_PROP_CANMOUNT
-            ZFS_PROP_KEYSTATUS
-            ZFS_PROP_INCONSISTENT
+    ctypedef enum zfs_prop_t:
+        ZPROP_CONT = -2
+        ZPROP_INVAL	= -1
+        ZFS_PROP_CREATETXG
+        ZFS_PROP_CANMOUNT
+        ZFS_PROP_KEYSTATUS
+        ZFS_PROP_RECEIVE_RESUME_TOKEN
+        ZFS_PROP_INCONSISTENT
     
     ctypedef enum zprop_errflags_t:
         ZPROP_ERR_NOCLEAR = 0x1

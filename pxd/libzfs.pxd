@@ -504,9 +504,8 @@ cdef extern from "libzfs.h" nogil:
     ELSE:
         extern int zfs_send_one(zfs_handle_t *, const char *, int, sendflags_t*, const char*) nogil
 
-    IF HAVE_ZFS_SEND_RESUME or HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-        extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)
-        extern nvpair.nvlist_t *zfs_send_resume_token_to_nvlist(libzfs_handle_t *hdl, const char *token)
+    extern int zfs_send_resume(libzfs_handle_t *, sendflags_t *, int outfd, const char *)
+    extern nvpair.nvlist_t *zfs_send_resume_token_to_nvlist(libzfs_handle_t *hdl, const char *token)
 
     extern int zfs_promote(zfs_handle_t *)
     extern int zfs_hold(zfs_handle_t *, const char *, const char *,

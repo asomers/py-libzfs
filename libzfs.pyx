@@ -934,14 +934,13 @@ cdef class ZFS(object):
             libzfs.zfs_close(handle)
             return 0
 
-        IF HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-            if (
-                libzfs.zfs_prop_get_int(handle, zfs.ZFS_PROP_INCONSISTENT) and libzfs.zfs_prop_get(
-                    handle, zfs.ZFS_PROP_RECEIVE_RESUME_TOKEN, NULL, 0, NULL, NULL, 0, True
-                ) == 0
-            ):
-                libzfs.zfs_close(handle)
-                return 0
+        if (
+            libzfs.zfs_prop_get_int(handle, zfs.ZFS_PROP_INCONSISTENT) and libzfs.zfs_prop_get(
+                handle, zfs.ZFS_PROP_RECEIVE_RESUME_TOKEN, NULL, 0, NULL, NULL, 0, True
+            ) == 0
+        ):
+            libzfs.zfs_close(handle)
+            return 0
 
         libzfs.libzfs_add_handle(cb, handle)
         ZFS.__iterate_filesystems(handle, 0, ZFS.__retrieve_mountable_datasets_handles, cb)
@@ -1762,7 +1761,7 @@ cdef class ZFS(object):
                 out.extend(other)
         return out
 
-    IF HAVE_SENDFLAGS_T_TYPEDEF and HAVE_ZFS_SEND_RESUME:
+    IF HAVE_SENDFLAGS_T_TYPEDEF:
         def send_resume(self, fd, token, flags=None):
             cdef libzfs.sendflags_t cflags
             cdef int ret, c_fd
@@ -1780,21 +1779,20 @@ cdef class ZFS(object):
             if ret != 0:
                 raise ZFSException(self.errno, self.errstr)
 
-    IF HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST:
-        def describe_resume_token(self, token):
-            cdef nvpair.nvlist_t *nvl
-            cdef char *c_token = token
+    def describe_resume_token(self, token):
+        cdef nvpair.nvlist_t *nvl
+        cdef char *c_token = token
 
-            with nogil:
-                nvl = libzfs.zfs_send_resume_token_to_nvlist(self.handle, c_token)
+        with nogil:
+            nvl = libzfs.zfs_send_resume_token_to_nvlist(self.handle, c_token)
 
-            if nvl == NULL:
-                raise ZFSException(self.errno, self.errstr)
+        if nvl == NULL:
+            raise ZFSException(self.errno, self.errstr)
 
-            retval = dict(NVList(<uintptr_t>nvl))
-            with nogil:
-                nvpair.nvlist_free(nvl)
-            return retval
+        retval = dict(NVList(<uintptr_t>nvl))
+        with nogil:
+            nvpair.nvlist_free(nvl)
+        return retval
 
 
 cdef class ZPoolProperty(object):
