@@ -578,28 +578,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 )
 
 
-dnl Checking for dedup member in sendflags_t struct
-
-AC_MSG_NOTICE([Checking for dedup member in sendflags_t struct])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			sendflags_t t;
-			t.dedup = 1 /* ; */
-		]
-	)],[
-		AC_SUBST(HAVE_SENDFLAGS_T_DEDUP, 1)
-		AC_SUBST(SENDFLAGS_T_DEDUP, "int dedup")
-		AC_MSG_NOTICE([OK])
-	],[
-		AC_SUBST(HAVE_SENDFLAGS_T_DEDUP, 0)
-		AC_SUBST(SENDFLAGS_T_DEDUP, "int pad")
-		AC_MSG_NOTICE([NOT FOUND])
-	]
-)
-
-
 dnl Checking for compress member in sendflags_t struct
 
 AC_MSG_NOTICE([Checking for compress member in sendflags_t struct])

@@ -328,8 +328,6 @@ class SendFlag(enum.Enum):
         SAVED = 14
     IF HAVE_SENDFLAGS_T_PROGRESSASTITLE:
         PROGRESSASTITLE = 15
-    IF HAVE_SENDFLAGS_T_DEDUP:
-        DEDUP = 16
 
 
 class DiffRecordType(enum.Enum):
@@ -4645,10 +4643,6 @@ cdef convert_sendflags(flags, libzfs.sendflags_t *cflags):
 
     if SendFlag.FROMORIGIN in flags:
         cflags.fromorigin = 1
-
-    IF HAVE_SENDFLAGS_T_DEDUP:
-        if SendFlag.DEDUP in flags:
-            cflags.dedup = 1
 
     if SendFlag.PROPS in flags:
         cflags.props = 1
