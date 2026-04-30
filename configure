@@ -697,7 +697,6 @@ HAVE_RENAMEFLAGS_T
 HAVE_ZFS_MAXNAMELEN
 HAVE_ZFS_SEND_RESUME_TOKEN_TO_NVLIST
 HAVE_ZFS_SEND_RESUME
-HAVE_ZFS_RECEIVE
 HAVE_EZFS_ASHIFT_MISMATCH
 HAVE_EZFS_RAIDZ_EXPAND_IN_PROGRESS
 HAVE_EZFS_SHAREFAILED
@@ -4769,63 +4768,6 @@ esac
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
-
-
-
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: Checking params for zfs_receive" >&5
-printf '%s\n' "$as_me: Checking params for zfs_receive" >&6;}
-
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-			zfs_receive(NULL, NULL, NULL, NULL, 1, NULL, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_ZFS_RECEIVE=7
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 7 params" >&5
-printf '%s\n' "$as_me: 7 params" >&6;}
-else case e in #(
-  e) cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <libzfs.h>
-int
-main (void)
-{
-
-				zfs_receive(NULL, NULL, NULL, NULL, 1, NULL) /* ; */
-
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  HAVE_ZFS_RECEIVE=6
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 6 params" >&5
-printf '%s\n' "$as_me: 6 params" >&6;}
-else case e in #(
-  e) HAVE_ZFS_RECEIVE=5
- { printf '%s\n' "$as_me:${as_lineno-$LINENO}: 5 params" >&5
-printf '%s\n' "$as_me: 5 params" >&6;}
-	 ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
 
 

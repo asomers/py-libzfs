@@ -564,29 +564,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 
 
 
-dnl Checking params for zfs_receive
-
-AC_MSG_NOTICE([Checking params for zfs_receive])
-
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-		[#include <libzfs.h>],
-		[
-			zfs_receive(NULL, NULL, NULL, NULL, 1, NULL, NULL) /* ; */
-		]
-	)],
-	[AC_SUBST(HAVE_ZFS_RECEIVE, 7) AC_MSG_NOTICE([7 params])],
-	[AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-			[#include <libzfs.h>],
-			[
-				zfs_receive(NULL, NULL, NULL, NULL, 1, NULL) /* ; */
-			]
-		)],
-		[AC_SUBST(HAVE_ZFS_RECEIVE, 6) AC_MSG_NOTICE([6 params])],
-		[AC_SUBST(HAVE_ZFS_RECEIVE, 5) AC_MSG_NOTICE([5 params])]
-	)]
-)
-
-
 dnl Checking existence of zfs_send_resume - if found, it is safe to assume that zfs_send_resume_token_to_nvlist exists too
 
 AC_MSG_NOTICE([Checking existence of zfs_send_resume and zfs_send_resume_token_to_nvlist])

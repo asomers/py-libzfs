@@ -1654,35 +1654,12 @@ cdef class ZFS(object):
             if resumable:
                 flags.resumable = True
 
-        IF HAVE_ZFS_RECEIVE == 7:
-            if props:
-                props_nvl = NVList(otherdict=props)
-                c_props_nvl = props_nvl.handle
+        if props:
+            props_nvl = NVList(otherdict=props)
+            c_props_nvl = props_nvl.handle
 
-            if limitds:
-                limitds_nvl = NVList(otherdict=limitds)
-                c_limitds_nvl = limitds_nvl.handle
-
-            with nogil:
-                ret = libzfs.zfs_receive(
-                    handle,
-                    c_name,
-                    &flags,
-                    c_fd,
-                    c_props_nvl,
-                    c_limitds_nvl,
-                    NULL
-                )
-        ELSE:
-            if props:
-                props_nvl = NVList(otherdict=props)
-                c_props_nvl = props_nvl.handle
-
-            with nogil:
-                IF HAVE_ZFS_RECEIVE == 6:
-                    ret = libzfs.zfs_receive(handle, c_name, c_props_nvl, &flags, c_fd, NULL)
-                ELSE:
-                    ret = libzfs.zfs_receive(handle, c_name, c_props_nvl, &flags, c_fd)
+        with nogil:
+            ret = libzfs.zfs_receive(handle, c_name, c_props_nvl, &flags, c_fd, NULL)
 
         if ret not in (0, -2):
             raise self.get_error()
