@@ -471,6 +471,12 @@ cdef extern from "sys/fs/zfs.h" nogil:
         uint64_t	vs_logical_ashift
         uint64_t	vs_physical_ashift
         uint64_t	vs_fragmentation
+        uint64_t	vs_trim_errors
+        uint64_t	vs_trim_notsup
+        uint64_t	vs_trim_bytes_done
+        uint64_t	vs_trim_bytes_est
+        uint64_t	vs_trim_state
+        uint64_t	vs_trim_action_time
 
     ctypedef struct pool_raidz_expand_stat_t:
         uint64_t    pres_state # dsl_scan_state_t
