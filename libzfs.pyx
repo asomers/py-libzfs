@@ -3903,7 +3903,7 @@ cdef class ZFSDataset(ZFSResource):
 
     property children:
         def __get__(self):
-            self.get_children()
+            return self.get_children()
 
     def get_children(self, props=None):
         cdef ZFSDataset dataset
@@ -3950,7 +3950,7 @@ cdef class ZFSDataset(ZFSResource):
 
     property snapshots:
         def __get__(self):
-            self.get_snapshots()
+            return self.get_snapshots()
 
     def get_snapshots(self, props=None):
         cdef ZFSSnapshot snapshot
