@@ -150,7 +150,7 @@ cdef class NVList(object):
             nvpair.nvpair_value_nvlist_array(pair, <nvpair.nvlist_t***>&carray, &carraylen)
             return [dict(NVList(x)) if wrap_dict else NVList(x) for x in (<uintptr_t *>carray)[:carraylen]]
 
-    cdef int nvlist_lookup_uint64_array(self, nvpair.nvlist_t* nvl, const char* buf, uint64_t **a, uint_t *n):
+    cdef int nvlist_lookup_uint64_array(self, nvpair.nvlist_t* nvl, const char* buf, uint64_t **a, uint_t *n) noexcept:
         return nvpair.nvlist_lookup_uint64_array(nvl, buf, a, n)
 
     def __contains__(self, key):
@@ -377,7 +377,11 @@ cdef class NVList(object):
             if type(value[0]) is int:
                 self.set(key, value, nvpair.DATA_TYPE_INT32_ARRAY)
 
-            if type(value[0]) is long:
+            # XXX This probably doesn't work, and never did, because "value" is
+            # a Python object, where numbers don't have well-defined type
+            # sizes.  The set API doesn't really allow the user to specify what
+            # typesize he wants.
+            if type(value[0]) is cython.longlong:
                 self.set(key, value, nvpair.DATA_TYPE_INT64_ARRAY)
 
             if type(value[0]) is str or type(value) is unicode:

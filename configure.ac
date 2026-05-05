@@ -40,11 +40,12 @@ case "${host_os}" in
 		;;
 esac
 
-CFLAGS="-DCYTHON_FALLTHROUGH"
+CFLAGS=""
 LIBS="-lzfs -lnvpair -lzfs_core"
 
 if [[ "${build_freebsd}" = "yes" ]]; then
-	LIBS="-lgeom ${LIBS}"
+    LIBS="-lgeom ${LIBS}"
+    CFLAGS="-DCYTHON_FALLTHROUGH ${CFLAGS}"
 fi
 
 if [[ "${build_macos}" = "yes" ]]; then
@@ -71,7 +72,7 @@ fi
 
 : ${freebsd_src:=/usr/src}
 
-zof=false
+: ${zof:=false}
 AC_SUBST(IS_OPENZFS, 1)
 if [[ -f "$header_prefix/include/libzfs/libzfs.h" ]] || [[ "$zof" = true ]]; then
 	zof=true
@@ -435,28 +436,15 @@ dnl Checking function signature of zfs_send_one
 
 AC_MSG_NOTICE([Checking function signature of zfs_send_one])
 
-if [[ "$zof" = false ]]; then
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-			[#include <libzfs.h>],
-			[
-				zfs_send_one(NULL, NULL, 0, 0) /* ; */
-			]
-		)],
-		[AC_SUBST(HAVE_ZFS_SEND_ONE, 4) AC_MSG_NOTICE([4 params])],
-		[AC_SUBST(HAVE_ZFS_SEND_ONE, 3) AC_MSG_NOTICE([3 params])]
-	)
-else
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-			[#include <libzfs.h>],
-			[
-				sendflags_t flag = { 0 };
-				zfs_send_one(NULL, NULL, 0, flag) /* ; */
-			]
-		)],
-		[AC_SUBST(HAVE_ZFS_SEND_ONE, 4) AC_MSG_NOTICE([4 params])],
-		[AC_SUBST(HAVE_ZFS_SEND_ONE, 3) AC_MSG_NOTICE([3 params])]
-	)
-fi
+dnl Try 5-param pointer variant first (modern OpenZFS)
+
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+    [#include <libzfs.h>],
+    [ sendflags_t flag = { 0 }; zfs_send_one(NULL, NULL, 0, &flag, NULL) /* ; */ ]
+)],
+    [AC_MSG_NOTICE([OK])],
+    [AC_MSG_ERROR([zfs_send_one with 5-param signature (handle, from, fd, sendflags_t*, redactbook) is required])]
+)
 
 dnl Checking function signature of zfs_userspace_cb_t
 # This function type gained a fifth argument in FreeBSD 15
@@ -569,7 +557,7 @@ AC_MSG_NOTICE([Checking for pss_skipped member in pool_scan_stat struct])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 		[#include <libzfs.h>],
 		[
-			pool_scan_stat t;
+			pool_scan_stat_t t;
 			t.pss_skipped = 1 /* ; */
 		]
 	)],

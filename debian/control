@@ -2,16 +2,13 @@ Source: py-libzfs
 Section: contrib/python
 Priority: optional
 Maintainer: William Grzybowski <william@grzy.org>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                dh-python,
                cython3,
-               libnvpair3,
-               libuutil3,
-               libzfs7,
-               libzfs7-devel,
+               libzfslinux-dev,
                python3-all-dev,
                python3-setuptools
-Standards-Version: 4.4.1
+Standards-Version: 4.7.0
 Homepage: https://github.com/freenas/py-libzfs
 Testsuite: autopkgtest-pkg-python
 
