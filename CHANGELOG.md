@@ -1,6 +1,6 @@
 # Change Log
 
-## [ 1.2.0 ] - 2026-05-27
+## [ 2.0.0 ] - 2026-05-27
 
 Relocated the repository from https://github.com/truenas/py-libzfs to
 https://github.com/asomers/py-libzfs and started this changelog.  The changelog
