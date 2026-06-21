@@ -51,12 +51,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - freebsd_version: "13.5"
-            branch: "releng/13.5"
           - freebsd_version: "14.4"
             branch: "releng/14.4"
-          - freebsd_version: "15.0"
-            branch: "releng/15.0"
+          - freebsd_version: "15.1"
+            branch: "releng/15.1"
     name: FreeBSD ${{ matrix.freebsd_version }}
     steps:
       - uses: actions/checkout@v6
