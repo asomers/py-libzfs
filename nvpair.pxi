@@ -374,14 +374,12 @@ cdef class NVList(object):
             if type(value[0]) is NVList:
                 self.set(key, value, nvpair.DATA_TYPE_NVLIST_ARRAY)
 
+            # XXX Python numbers don't have well-defined type sizes, so we
+            # don't know whether value[0] is "supposed" to be 32-bits, 64-bits,
+            # or some other size.  And the set API doesn't allow the user to
+            # specify what type size he wants.  So we'll just always use 64-bit
+            # arrays, because that's what ZFS usually does.
             if type(value[0]) is int:
-                self.set(key, value, nvpair.DATA_TYPE_INT32_ARRAY)
-
-            # XXX This probably doesn't work, and never did, because "value" is
-            # a Python object, where numbers don't have well-defined type
-            # sizes.  The set API doesn't really allow the user to specify what
-            # typesize he wants.
-            if type(value[0]) is cython.longlong:
                 self.set(key, value, nvpair.DATA_TYPE_INT64_ARRAY)
 
             if type(value[0]) is str or type(value) is unicode:
