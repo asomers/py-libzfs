@@ -1,5 +1,12 @@
 # Change Log
 
+## [ Unreleased ] - ReleaseDate
+
+### Fixed
+
+- Fixed the `ZFSVdev.Replace` method, broken since PR #7.
+  ([#17](https://github.com/asomers/py-libzfs/pull/17))
+
 ## [ 2.0.0 ] - 2026-05-27
 
 Relocated the repository from https://github.com/truenas/py-libzfs to
