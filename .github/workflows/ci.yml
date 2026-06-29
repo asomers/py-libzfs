@@ -66,7 +66,7 @@ jobs:
       - name: Install dependencies
         shell: freebsd {0}
         run: |
-          pkg install -y python3 py311-setuptools py311-cython git
+          pkg install -y python3 devel/py-setuptools lang/cython git
       - name: Fetch FreeBSD source
         shell: freebsd {0}
         run: |
