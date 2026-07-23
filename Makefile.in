@@ -17,7 +17,7 @@ build: libzfs.c
 
 libzfs.c: libzfs.pyx ${PXIS} ${PXDS} pyproject.toml
 	rm -f libzfs.c
-	${PYTHON} -m pip install . --no-deps -v
+	${PYTHON} -m build --no-isolation --wheel
 	@if [ -f libzfs.c ]; then :; elif [ -n "$$(find build -name 'libzfs.c' -print -quit 2>/dev/null)" ]; then \
 		cp "$$(find build -name 'libzfs.c' -print -quit)" libzfs.c; \
 	fi
