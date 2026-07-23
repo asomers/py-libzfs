@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt update
-          apt install -y build-essential debhelper-compat dh-python cython3 python3-all-dev python3-setuptools libzfslinux-dev
+          apt install -y build-essential debhelper-compat dh-python cython3 python3-all-dev python3-build python3-setuptools libzfslinux-dev
 
       - name: Build deb package
         run: dpkg-buildpackage -B --no-sign -jauto
