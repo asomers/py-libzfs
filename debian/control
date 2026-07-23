@@ -8,6 +8,7 @@ Build-Depends: debhelper-compat (= 13),
                libzfslinux-dev,
                python3-all-dev,
                python3-build,
+               pybuild-plugin-pyproject,
                python3-setuptools
 Standards-Version: 4.7.0
 Homepage: https://github.com/freenas/py-libzfs
