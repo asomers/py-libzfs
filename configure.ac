@@ -634,12 +634,41 @@ AC_CHECK_HEADERS([sys/nvpair.h],
 
 SECTION_TITLE([GENERATING FILES])
 
+PY_LIBRARIES="nvpair zfs zfs_core"
+if [[ "${build_freebsd}" = "yes" ]]; then
+	PY_LIBRARIES="${PY_LIBRARIES} geom"
+fi
+if [[ -f "$header_prefix/include/libuutil.h" ]]; then
+	PY_LIBRARIES="${PY_LIBRARIES} uutil"
+else
+	PY_LIBRARIES="${PY_LIBRARIES} pthread"
+fi
+
+toml_quote_list() {
+	result=
+	sep=
+	for flag in "$@"; do
+		escaped=$(printf '%s\n' "$flag" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')
+		result="${result}${sep}\"${escaped}\""
+		sep=", "
+	done
+	printf '%s' "$result"
+}
+
+EXTRA_COMPILE_ARGS_TOML=$(toml_quote_list ${CFLAGS} ${CPPFLAGS})
+EXTRA_LINK_ARGS_TOML=$(toml_quote_list ${LDFLAGS})
+LIBRARIES_TOML=$(toml_quote_list ${PY_LIBRARIES})
+
+AC_SUBST(EXTRA_COMPILE_ARGS_TOML)
+AC_SUBST(EXTRA_LINK_ARGS_TOML)
+AC_SUBST(LIBRARIES_TOML)
+
 AC_CONFIG_FILES([pxd/config.pxi])
 AC_CONFIG_FILES([pxd/sendflags.pxi])
 AC_CONFIG_FILES([pxd/spa_features.pxi])
 AC_CONFIG_FILES([pxd/userquota_props.pxi])
 AC_CONFIG_FILES([pxd/zpool_status.pxi])
-AC_CONFIG_FILES([config.py])
+AC_CONFIG_FILES([pyproject.toml])
 AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
