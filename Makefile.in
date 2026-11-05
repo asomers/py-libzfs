@@ -15,12 +15,20 @@ PXDS = \
 
 build: libzfs.c
 
-libzfs.c: libzfs.pyx ${PXIS} ${PXDS}
+libzfs.c: libzfs.pyx ${PXIS} ${PXDS} pyproject.toml
 	rm -f libzfs.c
-	${PYTHON} setup.py build
+	${PYTHON} -m build --no-isolation --wheel
+	@if [ -f libzfs.c ]; then :; elif [ -n "$$(find build -name 'libzfs.c' -print -quit 2>/dev/null)" ]; then \
+		cp "$$(find build -name 'libzfs.c' -print -quit)" libzfs.c; \
+	fi
 
 clean:
-	rm -rf build libzfs.c
+	rm -rf build dist libzfs.egg-info libzfs.c
+
+distclean: clean
+	rm -f Makefile config.status config.log config.h pyproject.toml
+	rm -f pxd/config.pxi pxd/sendflags.pxi pxd/spa_features.pxi
+	rm -f pxd/userquota_props.pxi pxd/zpool_status.pxi
 
 install:
-	${PYTHON} setup.py install --prefix ${PREFIX}
+	${PYTHON} -m pip install . --no-deps --prefix ${PREFIX}

@@ -14,5 +14,10 @@ config.log
 config.status
 config.h
 config.py
+configure~
+pyproject.toml
 *.c
 *.html
+*.swn
+*.swo
+*.swp
