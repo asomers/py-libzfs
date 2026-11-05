@@ -3,6 +3,9 @@
 ## [ Unreleased ] - ReleaseDate
 
 ### Fixed
+- Fixed TypeError in ZFSSnapshot.get_snapshots_recursive calling the property
+  snapshots to call get_snapshots method.
+  ([#19](https://github.com/asomers/py-libzfs/pull/19))
 
 - Fixed the `ZFSVdev.Replace` method, broken since PR #7.
   ([#17](https://github.com/asomers/py-libzfs/pull/17))
