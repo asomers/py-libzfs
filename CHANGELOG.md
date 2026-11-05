@@ -1,6 +1,6 @@
 # Change Log
 
-## [ Unreleased ] - ReleaseDate
+## [ 2.0.2 ] - 2026-11-05
 
 ### Fixed
 - Fixed TypeError in ZFSSnapshot.get_snapshots_recursive calling the property
