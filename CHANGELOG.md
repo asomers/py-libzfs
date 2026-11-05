@@ -7,6 +7,8 @@
   snapshots to call get_snapshots method.
   ([#19](https://github.com/asomers/py-libzfs/pull/19))
 
+## [ 2.0.1 ] - 2026-06-29
+
 - Fixed the `ZFSVdev.Replace` method, broken since PR #7.
   ([#17](https://github.com/asomers/py-libzfs/pull/17))
 
